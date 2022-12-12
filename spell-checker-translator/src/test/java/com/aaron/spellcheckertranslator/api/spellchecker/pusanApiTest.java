@@ -1,5 +1,7 @@
 package com.aaron.spellcheckertranslator.api.spellchecker;
 
+import com.aaron.spellcheckertranslator.spellchecker.domain.PusanResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,11 +59,14 @@ public class pusanApiTest {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
         log.info("status code: {}", response.statusCode());
 
         String result = getResult(response);
-        log.info(result);
+        log.info("result: {}", result);
+
+        ObjectMapper mapper = new ObjectMapper();
+        PusanResult resultObject = mapper.readValue(result, PusanResult.class);
+        log.info("resultObject: {}", resultObject);
     }
 
     private String getResult(HttpResponse<String> response) {
