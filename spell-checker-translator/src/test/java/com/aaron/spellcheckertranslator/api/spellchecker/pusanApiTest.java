@@ -1,6 +1,9 @@
 package com.aaron.spellcheckertranslator.api.spellchecker;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,8 +45,10 @@ public class pusanApiTest {
     @Test
     void pusan_spell_checker_api_request_test() throws Exception {
 
+        String text = "만나서반갑습니다. 내이름은아론입니다.";
+
         Map<Object, Object> formData = new HashMap<>();
-        formData.put("text1", "만나서반갑습니다. 내이름은아론입니다.");
+        formData.put("text1", text);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(ofFormData(formData))
@@ -52,6 +59,30 @@ public class pusanApiTest {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         log.info("status code: {}", response.statusCode());
+
+        String result = getResult(response);
+        log.info(result);
+    }
+
+    private String getResult(HttpResponse<String> response) {
+        Document doc = Jsoup.parse(response.body());
+        return getResult(extractResultScript(doc.getElementsByTag("script")));
+    }
+
+    private String getResult(String script) {
+        Pattern compile = Pattern.compile("(\\[)(.*?)(\\];)");
+        Matcher matcher = compile.matcher(script);
+        if (matcher.find()) {
+            return matcher.group(2);
+        }
+        return "";
+    }
+
+    private String extractResultScript(Elements body) {
+        if (body.get(2) != null) {
+            return body.get(2).toString();
+        }
+        return "";
     }
 
     public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) {
