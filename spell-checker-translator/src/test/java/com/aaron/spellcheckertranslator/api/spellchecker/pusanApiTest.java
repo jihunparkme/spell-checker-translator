@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
@@ -80,14 +81,14 @@ public class pusanApiTest {
         if (matcher.find()) {
             return matcher.group(2);
         }
-        return "";
+        return EMPTY;
     }
 
     private String extractResultScript(Elements body) {
         if (body.get(2) != null) {
             return body.get(2).toString();
         }
-        return "";
+        return EMPTY;
     }
 
     public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) {
