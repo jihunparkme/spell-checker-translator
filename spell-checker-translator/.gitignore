@@ -36,4 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-.yml
+### Custom ###
+.DS_Store
+application-prd.yml
