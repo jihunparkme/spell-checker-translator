@@ -1,0 +1,18 @@
+spell:
+  checker:
+    pusan:
+      url: ''
+
+    kakao:
+      url: ''
+
+translator:
+  google:
+    apis:
+      url: ''
+
+    cloud:
+      url: ''
+
+  papago:
+    url: ''
