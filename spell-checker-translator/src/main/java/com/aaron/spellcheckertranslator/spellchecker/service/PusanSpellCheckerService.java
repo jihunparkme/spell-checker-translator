@@ -1,7 +1,6 @@
 package com.aaron.spellcheckertranslator.spellchecker.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +13,7 @@ public class PusanSpellCheckerService implements SpellCheckerService {
     public String spellCheck(String text) {
         String response = pusanSpellCheckerApiService.spellCheck(text);
 
-        String result = StringUtils.EMPTY;
+        String result = response;
 
         return result;
     }
