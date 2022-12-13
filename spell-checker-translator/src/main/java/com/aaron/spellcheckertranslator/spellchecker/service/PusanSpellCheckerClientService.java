@@ -79,7 +79,7 @@ public class PusanSpellCheckerClientService implements SpellCheckerClientService
     }
 
     private String extractResultScript(Elements body) {
-        if (body.get(2) != null) {
+        if (body.size() >= 3 && body.get(2) != null) {
             return body.get(2).toString();
         }
         return EMPTY;
