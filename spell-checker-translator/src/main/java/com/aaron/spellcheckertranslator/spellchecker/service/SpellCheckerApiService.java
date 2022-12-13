@@ -1,5 +1,5 @@
 package com.aaron.spellcheckertranslator.spellchecker.service;
 
-public interface SpellCheckerService {
+public interface SpellCheckerApiService {
     String spellCheck(String text);
 }
