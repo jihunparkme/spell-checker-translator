@@ -19,7 +19,7 @@ class PusanSpellCheckerServiceTest {
     @Test
     void spellCheck1() {
         String result = spellCheckerService.spellCheck("아빠가방에들어가십니다.");
-        assertThat(result).isEqualTo("아빠가 방에 들어가십니다");
+        assertThat(result).isEqualTo("아빠가 방에 들어가십니다.");
     }
 
     @Test
@@ -38,12 +38,18 @@ class PusanSpellCheckerServiceTest {
     void spellCheck4() {
         String result = spellCheckerService.spellCheck("내 이름은 아론입니다...");
         assertThat(result).isEqualTo("내 이름은 아론입니다...");
-        log.info(result);
     }
 
     @Test
-    void method() throws Exception {
-        String a = "내 이름은 아론입니다|내이들은 아론입니다|내이는 아론입니다";
-        String[] split = a.split("\\|");
+    void spellCheck5() {
+        String result = spellCheckerService.spellCheck("대상 클래스만 다를뿐 로직은 유사하고, 대상 클래스 개수만큼 프록시 클래스 생성 필요");
+        assertThat(result).isEqualTo("대상 클래스만 다를 뿐 로직은 유사하고, 대상 클래스 개수만큼 프락시 클래스 생성 필요");
+    }
+
+    @Test
+    void string_replace_test() {
+        String orgStr = "대상 클래스만 다를뿐 로직은 유사하고, 대상 클래스 개수만큼 프록시 클래스 생성 필요";
+        String result = orgStr.replace("다를뿐", "다를 뿐");
+        assertThat(result).isEqualTo("대상 클래스만 다를 뿐 로직은 유사하고, 대상 클래스 개수만큼 프록시 클래스 생성 필요");
     }
 }
