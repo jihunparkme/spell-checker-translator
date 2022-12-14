@@ -29,14 +29,13 @@ public class PusanSpellCheckerService implements SpellCheckerService {
             return text;
         }
 
-        StringBuffer result = new StringBuffer();
         List<ErrInfo> errInfo = resultObject.getErrInfo();
-        errInfo.forEach(info -> {
+        for (ErrInfo info : errInfo) {
             String checkedSpell = info.getCandWord().split("\\|")[0];
-            result.append(checkedSpell);
-        });
+            text = text.replace(info.getOrgStr(), checkedSpell);
+        }
 
-        return result.toString();
+        return text;
     }
 
     private PusanResult getResultObject(String response) {
