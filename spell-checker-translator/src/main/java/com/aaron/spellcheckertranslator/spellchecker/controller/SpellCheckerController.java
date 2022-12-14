@@ -4,7 +4,7 @@ import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +16,7 @@ public class SpellCheckerController {
 
     private final PusanSpellCheckerService spellCheckerService;
 
-    @GetMapping("/pusan")
+    @PostMapping("/pusan")
     public SpellCheckerResponse request(String text) {
         String result = spellCheckerService.spellCheck(text);
         SpellCheckerResponse response = SpellCheckerResponse.builder()
