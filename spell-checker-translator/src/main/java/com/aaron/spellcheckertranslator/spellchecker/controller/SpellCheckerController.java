@@ -18,11 +18,7 @@ public class SpellCheckerController {
 
     @PostMapping("/pusan")
     public SpellCheckerResponse request(String text) {
-        String result = spellCheckerService.spellCheck(text);
-        SpellCheckerResponse response = SpellCheckerResponse.builder()
-                .originalText(text)
-                .checkedText(result)
-                .build();
+        SpellCheckerResponse response = spellCheckerService.spellCheck(text);
         return response;
     }
 }

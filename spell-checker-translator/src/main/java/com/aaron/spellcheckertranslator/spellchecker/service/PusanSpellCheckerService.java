@@ -2,6 +2,7 @@ package com.aaron.spellcheckertranslator.spellchecker.service;
 
 import com.aaron.spellcheckertranslator.spellchecker.domain.ErrInfo;
 import com.aaron.spellcheckertranslator.spellchecker.domain.PusanResult;
+import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,14 @@ public class PusanSpellCheckerService implements SpellCheckerService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String spellCheck(String text) {
+    public SpellCheckerResponse spellCheck(String text) {
         String response = pusanSpellCheckerApiService.spellCheck(text);
         if (StringUtils.isBlank(response)) {
-            return text;
+            return SpellCheckerResponse.getDefaultResponse(text);
         }
         PusanResult resultObject = getResultObject(response);
         if (resultObject == null) {
-            return text;
+            return SpellCheckerResponse.getDefaultResponse(text);
         }
 
         List<ErrInfo> errInfo = resultObject.getErrInfo();
@@ -35,7 +36,11 @@ public class PusanSpellCheckerService implements SpellCheckerService {
             text = text.replace(info.getOrgStr(), checkedSpell);
         }
 
-        return text;
+        return SpellCheckerResponse.builder()
+                .originalText(resultObject.getStr())
+                .correctedText(text)
+                .errInfo(errInfo)
+                .build();
     }
 
     private PusanResult getResultObject(String response) {
