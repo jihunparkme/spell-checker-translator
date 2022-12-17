@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.spellchecker.service;
 
+import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
 import com.aaron.spellcheckertranslator.spellchecker.config.PusanSpellCheckerWebClientConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,11 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -48,7 +47,7 @@ public class PusanSpellCheckerClientService implements SpellCheckerClientService
 
     private HttpRequest createHttpRequest(String text) {
         return HttpRequest.newBuilder()
-                .POST(ofFormData(getMapData(text)))
+                .POST(RequestUtil.ofFormData(getMapData(text)))
                 .uri(URI.create(spellCheckerWebClientConfig.getApiUrl()))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .build();
@@ -58,19 +57,6 @@ public class PusanSpellCheckerClientService implements SpellCheckerClientService
         Map<Object, Object> formData = new HashMap<>();
         formData.put("text1", text);
         return formData;
-    }
-
-    public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) {
-        StringBuilder builder = new StringBuilder();
-        for (Map.Entry<Object, Object> entry : data.entrySet()) {
-            if (builder.length() > 0) {
-                builder.append("&");
-            }
-            builder.append(URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8));
-            builder.append("=");
-            builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
-        }
-        return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
     private String getResult(HttpResponse<String> response) {
