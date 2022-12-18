@@ -2,7 +2,6 @@ package com.aaron.spellcheckertranslator.translator.service;
 
 import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
 import com.aaron.spellcheckertranslator.translator.config.GoogleTransWebClientConfig;
-import com.aaron.spellcheckertranslator.translator.domain.LANGUAGE;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
