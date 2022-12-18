@@ -12,10 +12,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -25,20 +27,20 @@ public class GoogleTransClientService implements TranslatorClientService {
     private final GoogleTransWebClientConfig webClientConfig;
 
     @Override
-    public String translate(String text, String toLanguage) {
+    public List<String> translate(String text, String toLanguage) {
         HttpClient httpClient = webClientConfig.createHttpClient();
         HttpRequest request = createHttpRequest(text, toLanguage);
 
         try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<Stream<String>> response = httpClient.send(request, HttpResponse.BodyHandlers.ofLines());
             if (HttpStatus.OK.equals(HttpStatus.valueOf(response.statusCode()))) {
-                return response.body();
+                return response.body().collect(Collectors.toList());
             }
         } catch (Exception e) {
             log.error("fail to call pusan spell check api", e);
         }
 
-        return EMPTY;
+        return Collections.EMPTY_LIST;
     }
 
     private HttpRequest createHttpRequest(String text, String toLanguage) {

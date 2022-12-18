@@ -1,5 +1,7 @@
 package com.aaron.spellcheckertranslator.translator.service;
 
+import java.util.List;
+
 public interface TranslatorApiService {
-    String translate(String text, String toLanguage);
+    List<String> translate(String text, String toLanguage);
 }
