@@ -1,6 +1,7 @@
 package com.aaron.spellcheckertranslator.api.translator;
 
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
@@ -69,8 +71,10 @@ public class GoogleApiTest {
 
         String body = response.body();
         log.info("result: {}", body);
+
         Pattern compile = Pattern.compile("(?<=\\[\")(.*?)(?=\\])");
         Matcher matcher = compile.matcher(body);
+        StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             List<String> strings = Arrays.asList(matcher.group(1).replace(",null", ""));
             for (String string : strings) {
@@ -78,15 +82,16 @@ public class GoogleApiTest {
                     String[] split = string.split(",\"");
                     for (String s : split) {
                         if (!s.contains("[[")) {
-                            log.info(s.replace("\"", "").trim());
+                            String replace = s.replace("\"", "").replace("\\", "\"");
+                            log.info(replace);
+                            sb.append(replace);
                         }
                     }
                 }
             }
-            if(matcher.group(1) ==  null) {
-                break;
-            }
         }
+        String result = sb.toString();
+        assertThat(result).isEqualTo("'Should I step down from managing Twitter?' An unprecedented situation occurred in which the majority of respondents voted in favor of a vote cast by Tesla CEO Elon Musk. Tesla stock, which had plummeted for a while due to Musk's bizarre management moves, welcomed the news with a surge. The market's attention is focused on whether Musk, who announced that he will \"follow the survey results,\" will actually step down from the management front.");
     }
 
     @Test
