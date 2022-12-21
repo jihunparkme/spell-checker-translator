@@ -1,9 +1,11 @@
 package com.aaron.spellcheckertranslator.translator.domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
-public enum LANGUAGE {
+public enum Language {
     AFRIKAANS("af"),
     ALBANIAN("sq"),
     AMHARIC("am"),

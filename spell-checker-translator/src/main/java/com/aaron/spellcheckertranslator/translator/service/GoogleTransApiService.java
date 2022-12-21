@@ -10,7 +10,7 @@ public class GoogleTransApiService implements TranslatorApiService {
     private final GoogleTransClientService clientService;
 
     @Override
-    public String translate(String text, String toLanguage) {
-        return clientService.translate(text, toLanguage);
+    public String translate(String text, String sourceLanguage, String targetLanguage) {
+        return clientService.translate(text, sourceLanguage, targetLanguage);
     }
 }

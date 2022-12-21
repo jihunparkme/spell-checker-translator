@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.service;
 
+import com.aaron.spellcheckertranslator.translator.domain.TranslatorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,34 +18,47 @@ public class GoogleTransService implements TranslatorService {
     private final GoogleTransApiService apiService;
 
     @Override
-    public String translate(String text, String toLanguage) {
-        String response = apiService.translate(text, toLanguage);
+    public TranslatorResponse translate(String text, String sourceLanguage, String targetLanguage) {
+        String response = apiService.translate(text, sourceLanguage, targetLanguage);
 
-        Pattern compile = Pattern.compile("(?<=\\[)(.*?)(?=\\])");
-        Matcher matcher = compile.matcher(response);
+        String translatedText = extractTranslatedText(response);
+        return TranslatorResponse.builder()
+                .originalText(text)
+                .translatedText(translatedText)
+                .build();
+    }
+
+    private String extractTranslatedText(String response) {
+        Pattern pattern = Pattern.compile("(?<=\\[)(.*?)(?=\\])");
+        Matcher matcher = pattern.matcher(response);
+
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
-            List<String> strings = Arrays.asList(matcher.group(1).replace(",null", ""));
-            for (String string : strings) {
-                if (string.contains("\",\"") && !string.contains(".md")) {
-                    String[] split = string.split(",\"");
-                    for (int i = 0; i < split.length; i++) {
-                        if (i % 2 == 0) {
-                            String replace = split[i].replace("[", "").replace("\"", "").replace("\\", "\"");
-                            log.info(replace);
-                            sb.append(replace);
-                        }
-                    }
+            List<String> matcherTextList = Arrays.asList(matcher.group(1).replace(",null", ""));
+            for (String matcherText : matcherTextList) {
+                if (isTranslatorArea(matcherText)) {
+                    getTranslatedText(sb, matcherText);
                 }
             }
         }
-        String result = sb.toString();
-        return result;
+
+        return sb.toString();
     }
 
-    /**
-     * [[["hello. ","안녕하세요.",null,null,10],["My name is Aaron.","제 이름은 아론입니다.",null,null,3,null,null,[[]],[[["3377325d18169b98f25ba02b5cc513dc","ko_en_2022q2.md"]]]]],null,"ko",null,null,null,1,[],[["ko"],null,[1],["ko"]]]
-     */
-    //''.join([d[0] if d[0] else '' for d in data[0]])
-    //"".join([caption[0] for caption in list(res.json())[0]])
+    private void getTranslatedText(StringBuffer sb, String matcherText) {
+        String[] split = matcherText.split(",\"");
+        for (int i = 0; i < split.length; i++) {
+            if (i % 2 == 0) {
+                sb.append(getTranslatedsentence(split[i]));
+            }
+        }
+    }
+
+    private String getTranslatedsentence(String split) {
+        return split.replace("[", "").replace("\"", "").replace("\\", "\"");
+    }
+
+    private boolean isTranslatorArea(String matcherText) {
+        return matcherText.contains("\",\"") && matcherText.contains(".md");
+    }
 }

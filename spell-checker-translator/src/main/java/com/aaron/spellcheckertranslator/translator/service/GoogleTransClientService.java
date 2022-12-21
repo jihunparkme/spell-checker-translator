@@ -25,9 +25,9 @@ public class GoogleTransClientService implements TranslatorClientService {
     private final GoogleTransWebClientConfig webClientConfig;
 
     @Override
-    public String translate(String text, String toLanguage) {
+    public String translate(String text, String sourceLanguage, String targetLanguage) {
         HttpClient httpClient = webClientConfig.createHttpClient();
-        HttpRequest request = createHttpRequest(text, toLanguage);
+        HttpRequest request = createHttpRequest(text, sourceLanguage, targetLanguage);
 
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -41,21 +41,21 @@ public class GoogleTransClientService implements TranslatorClientService {
         return EMPTY;
     }
 
-    private HttpRequest createHttpRequest(String text, String toLanguage) {
+    private HttpRequest createHttpRequest(String text, String sourceLanguage, String targetLanguage) {
         return HttpRequest.newBuilder()
-                .POST(RequestUtil.ofFormData(getMapData(text, toLanguage)))
+                .POST(RequestUtil.ofFormData(getMapData(text, sourceLanguage, targetLanguage)))
                 .uri(URI.create(webClientConfig.getApiUrl()))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .build();
     }
 
-    private Map<Object, Object> getMapData(String text, String toLanguage) {
+    private Map<Object, Object> getMapData(String text, String sourceLanguage, String targetLanguage) {
         Map<Object, Object> formData = new HashMap<>();
         formData.put("client", "gtx");
-        formData.put("sl", "auto");
+        formData.put("sl", sourceLanguage);
         formData.put("dt", "t");
         formData.put("ie", StandardCharsets.UTF_8.name());
-        formData.put("tl", toLanguage);
+        formData.put("tl", targetLanguage);
         formData.put("q", text);
         return formData;
     }
