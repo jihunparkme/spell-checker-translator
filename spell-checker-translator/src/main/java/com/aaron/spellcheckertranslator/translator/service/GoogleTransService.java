@@ -59,6 +59,6 @@ public class GoogleTransService implements TranslatorService {
     }
 
     private boolean isTranslatorArea(String matcherText) {
-        return matcherText.contains("\",\"") && matcherText.contains(".md");
+        return matcherText.contains("\",\"") && !matcherText.contains(".md");
     }
 }

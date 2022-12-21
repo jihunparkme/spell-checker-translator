@@ -1,14 +1,14 @@
 package com.aaron.spellcheckertranslator.sct.util;
 
+import lombok.NoArgsConstructor;
+
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@NoArgsConstructor
 public class RequestUtil {
-    private RequestUtil() {
-    }
-
     public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) {
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
