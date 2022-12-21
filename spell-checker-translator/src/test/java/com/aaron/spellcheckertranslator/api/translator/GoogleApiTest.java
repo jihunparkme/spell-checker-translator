@@ -14,9 +14,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
@@ -44,7 +49,7 @@ public class GoogleApiTest {
 
     @Test
     void google_translator_api_request_ko_en_test() throws Exception {
-        String text = "만나서 반갑습니다. 내 이름은 아론입니다.";
+        String text = "'트위터 경영에서 물러나야 할까?' 일론 머스크 테슬라 최고경영자(CEO)가 던진 찬반 투표에 응답자 과반이 찬성표를 던지는 사상 초유의 사태가 벌어졌다. 머스크의 기이한 경영 행보에 한동안 곤두박질쳤던 테슬라 주가는 급등하며 이같은 소식을 반겼다. \"설문조사 결과를 따르겠다\"며 공언한 머스크가 실제로 경영 일선에서 물러설 것인지 시장의 관심이 쏠린다.";
 
         Map<Object, Object> formData = new HashMap<>();
         formData.put("client", "gtx");
@@ -62,7 +67,30 @@ public class GoogleApiTest {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         log.info("status code: {}", response.statusCode());
-        log.info("result: {}", response.body());
+
+        String body = response.body();
+        log.info("result: {}", body);
+
+        Pattern compile = Pattern.compile("(?<=\\[\")(.*?)(?=\\])");
+        Matcher matcher = compile.matcher(body);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            List<String> strings = Arrays.asList(matcher.group(1).replace(",null", ""));
+            for (String string : strings) {
+                if (string.contains("[[")) {
+                    String[] split = string.split(",\"");
+                    for (String s : split) {
+                        if (!s.contains("[[")) {
+                            String replace = s.replace("\"", "").replace("\\", "\"");
+                            log.info(replace);
+                            sb.append(replace);
+                        }
+                    }
+                }
+            }
+        }
+        String result = sb.toString();
+        assertThat(result).isEqualTo("'Should I step down from managing Twitter?' An unprecedented situation occurred in which the majority of respondents voted in favor of a vote cast by Tesla CEO Elon Musk. Tesla stock, which had plummeted for a while due to Musk's bizarre management moves, welcomed the news with a surge. The market's attention is focused on whether Musk, who announced that he will \"follow the survey results,\" will actually step down from the management front.");
     }
 
     @Test
