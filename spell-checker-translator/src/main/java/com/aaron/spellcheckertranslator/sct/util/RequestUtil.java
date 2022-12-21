@@ -9,6 +9,7 @@ import java.util.Map;
 
 @NoArgsConstructor
 public class RequestUtil {
+
     public static HttpRequest.BodyPublisher ofFormData(Map<Object, Object> data) {
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
