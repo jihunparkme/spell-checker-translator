@@ -4,6 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -14,7 +19,27 @@ public class GoogleTransService implements TranslatorService {
     @Override
     public String translate(String text, String toLanguage) {
         String response = apiService.translate(text, toLanguage);
-        return response;
+
+        Pattern compile = Pattern.compile("(?<=\\[)(.*?)(?=\\])");
+        Matcher matcher = compile.matcher(response);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            List<String> strings = Arrays.asList(matcher.group(1).replace(",null", ""));
+            for (String string : strings) {
+                if (string.contains("\",\"") && !string.contains(".md")) {
+                    String[] split = string.split(",\"");
+                    for (int i = 0; i < split.length; i++) {
+                        if (i % 2 == 0) {
+                            String replace = split[i].replace("[", "").replace("\"", "").replace("\\", "\"");
+                            log.info(replace);
+                            sb.append(replace);
+                        }
+                    }
+                }
+            }
+        }
+        String result = sb.toString();
+        return result;
     }
 
     /**
