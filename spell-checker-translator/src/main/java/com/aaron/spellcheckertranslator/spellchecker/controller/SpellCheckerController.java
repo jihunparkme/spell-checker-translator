@@ -17,7 +17,7 @@ public class SpellCheckerController {
     private final PusanSpellCheckerService spellCheckerService;
 
     @PostMapping("/pusan")
-    public SpellCheckerResponse request(String text) {
+    public SpellCheckerResponse pusanSpellCheck(String text) {
         SpellCheckerResponse response = spellCheckerService.spellCheck(text);
         return response;
     }
