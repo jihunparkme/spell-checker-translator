@@ -18,9 +18,15 @@ public class GoogleTransController {
     private final GoogleTransService transService;
 
     @PostMapping("/google")
-    public TranslatorResponse googleTranslator(String text, String sourceLanguage, String targetLanguage) {
-        TranslatorResponse middleTranslate = transService.translate(text, sourceLanguage, Language.JAPANESE.getLang());
-        TranslatorResponse finalTranslate = transService.translate(middleTranslate.getTranslatedText(), Language.JAPANESE.getLang(), targetLanguage);
+    public TranslatorResponse googleTranslator(String text, String srcLang, String tgtLang) {
+        TranslatorResponse middleTranslate = transService.translate(
+                text,
+                Language.from(srcLang).getLang(),
+                Language.JAPANESE.getLang());
+        TranslatorResponse finalTranslate = transService.translate(
+                middleTranslate.getTranslatedText(),
+                Language.JAPANESE.getLang(),
+                Language.from(tgtLang).getLang());
 
         return TranslatorResponse.builder()
                 .originalText(text)

@@ -23,12 +23,18 @@ public class SctController {
     
 
     @PostMapping("/request")
-    public SpellCheckerTranslatorResponse pusanSpellCheck(String text, String sourceLanguage, String targetLanguage) {
+    public SpellCheckerTranslatorResponse pusanSpellCheck(String text, String srcLang, String tgtLang) {
         SpellCheckerResponse response = spellCheckerService.spellCheck(text);
         String correctedText = response.getCorrectedText();
 
-        TranslatorResponse middleTranslate = transService.translate(correctedText, sourceLanguage, Language.JAPANESE.getLang());
-        TranslatorResponse finalTranslate = transService.translate(middleTranslate.getTranslatedText(), Language.JAPANESE.getLang(), targetLanguage);
+        TranslatorResponse middleTranslate = transService.translate(
+                correctedText,
+                Language.from(srcLang).getLang(),
+                Language.JAPANESE.getLang());
+        TranslatorResponse finalTranslate = transService.translate(
+                middleTranslate.getTranslatedText(),
+                Language.JAPANESE.getLang(),
+                Language.from(tgtLang).getLang());
 
         return SpellCheckerTranslatorResponse.builder()
                 .originalText(text)
