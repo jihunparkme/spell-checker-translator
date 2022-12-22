@@ -1,11 +1,7 @@
 package com.aaron.spellcheckertranslator.sct.controller;
 
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
-import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
-import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
-import com.aaron.spellcheckertranslator.translator.domain.Language;
-import com.aaron.spellcheckertranslator.translator.domain.TranslatorResponse;
-import com.aaron.spellcheckertranslator.translator.service.GoogleTransService;
+import com.aaron.spellcheckertranslator.sct.service.SctServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,30 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/spl-ch-trnsl")
 public class SctController {
-    
-    private final PusanSpellCheckerService spellCheckerService;
-    private final GoogleTransService transService;
-    
+
+    private final SctServiceImpl sctService;
 
     @PostMapping("/request")
-    public SpellCheckerTranslatorResponse pusanSpellCheck(String text, String srcLang, String tgtLang) {
-        SpellCheckerResponse response = spellCheckerService.spellCheck(text);
-        String correctedText = response.getCorrectedText();
-
-        TranslatorResponse middleTranslate = transService.translate(
-                correctedText,
-                Language.from(srcLang).getLang(),
-                Language.JAPANESE.getLang());
-        TranslatorResponse finalTranslate = transService.translate(
-                middleTranslate.getTranslatedText(),
-                Language.JAPANESE.getLang(),
-                Language.from(tgtLang).getLang());
-
-        return SpellCheckerTranslatorResponse.builder()
-                .originalText(text)
-                .correctedText(correctedText)
-                .spellCheckErrInfo(response.getErrInfo())
-                .translatedText(finalTranslate.getTranslatedText())
-                .build();
+    public SpellCheckerTranslatorResponse request(String text, String srcLang, String tgtLang) {
+        return sctService.spellCheckAndTranslator(text, srcLang, tgtLang);
     }
 }
