@@ -22,7 +22,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.jsoup:jsoup:1.15.3'
 	implementation 'org.apache.commons:commons-lang3'
-
+	implementation 'ch.qos.logback:logback-classic'
+	implementation 'ch.qos.logback:logback-core'
 
 	compileOnly 'org.projectlombok:lombok'
 
