@@ -24,7 +24,6 @@ bin/
 *.ipr
 out/
 !**/src/main/**/out/
-!**/src/main/resources/log
 !**/src/test/**/out/
 
 ### NetBeans ###
@@ -40,3 +39,4 @@ out/
 ### Custom ###
 .DS_Store
 application-prd.yml
+**/log
