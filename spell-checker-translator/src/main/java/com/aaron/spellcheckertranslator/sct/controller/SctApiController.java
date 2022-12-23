@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/spl-ch-trnsl")
-public class SctController {
+public class SctApiController {
 
     private final SctServiceImpl sctService;
 
