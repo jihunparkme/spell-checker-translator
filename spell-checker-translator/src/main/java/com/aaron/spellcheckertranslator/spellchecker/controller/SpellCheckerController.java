@@ -20,6 +20,7 @@ public class SpellCheckerController {
     @PostMapping("/pusan")
     public SpellCheckerResponse pusanSpellCheck(SpellCheckerRequest request) {
         SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
+        log.info("REQUEST:: original: {}, result: {}", request.getText(), response.getCorrectedText());
         return response;
     }
 }

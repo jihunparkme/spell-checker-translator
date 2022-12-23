@@ -31,6 +31,7 @@ public class GoogleTransController {
                 Language.JAPANESE.getLang(),
                 Language.from(request.getTgtLang()).getLang());
 
+        log.info("REQUEST:: original: {}, result: {}", request.getText(), finalTranslate);
         return TranslatorResponse.builder()
                 .originalText(request.getText())
                 .translatedText(finalTranslate.getTranslatedText())

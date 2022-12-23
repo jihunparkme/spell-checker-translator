@@ -8,8 +8,10 @@ import com.aaron.spellcheckertranslator.translator.domain.Language;
 import com.aaron.spellcheckertranslator.translator.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.service.GoogleTransService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SctServiceImpl implements SctService {
@@ -29,6 +31,7 @@ public class SctServiceImpl implements SctService {
                 Language.JAPANESE.getLang(),
                 Language.from(request.getTgtLang()).getLang());
 
+        log.info("REQUEST:: original: {}, result: {}", request.getText(), finalTranslate.getTranslatedText());
         return SpellCheckerTranslatorResponse.builder()
                 .originalText(request.getText())
                 .correctedText(correctedText)
