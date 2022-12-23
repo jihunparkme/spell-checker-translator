@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.jsoup:jsoup:1.15.3'
 	implementation 'org.apache.commons:commons-lang3'
@@ -26,6 +27,7 @@ dependencies {
 	implementation 'ch.qos.logback:logback-core'
 
 	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'
 
 	annotationProcessor 'org.projectlombok:lombok'
 
