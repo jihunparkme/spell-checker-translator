@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.spellchecker.controller;
 
+import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerRequest;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class SpellCheckerController {
     private final PusanSpellCheckerService spellCheckerService;
 
     @PostMapping("/pusan")
-    public SpellCheckerResponse pusanSpellCheck(String text) {
-        SpellCheckerResponse response = spellCheckerService.spellCheck(text);
+    public SpellCheckerResponse pusanSpellCheck(SpellCheckerRequest request) {
+        SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
         return response;
     }
 }

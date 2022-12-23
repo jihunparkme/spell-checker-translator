@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.sct.controller;
 
+import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.sct.service.SctServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class SctController {
     private final SctServiceImpl sctService;
 
     @PostMapping("/request")
-    public SpellCheckerTranslatorResponse request(String text, String srcLang, String tgtLang) {
-        return sctService.spellCheckAndTranslator(text, srcLang, tgtLang);
+    public SpellCheckerTranslatorResponse request(SpellCheckerTranslatorRequest request) {
+        return sctService.spellCheckAndTranslator(request);
     }
 }

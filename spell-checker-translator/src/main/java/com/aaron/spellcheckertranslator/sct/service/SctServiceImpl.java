@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.sct.service;
 
+import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
@@ -15,21 +16,21 @@ public class SctServiceImpl implements SctService {
     private final PusanSpellCheckerService spellCheckerService;
     private final GoogleTransService transService;
 
-    public SpellCheckerTranslatorResponse spellCheckAndTranslator(String text, String srcLang, String tgtLang) {
-        SpellCheckerResponse response = spellCheckerService.spellCheck(text);
+    public SpellCheckerTranslatorResponse spellCheckAndTranslator(SpellCheckerTranslatorRequest request) {
+        SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
         String correctedText = response.getCorrectedText();
 
         TranslatorResponse middleTranslate = transService.translate(
                 correctedText,
-                Language.from(srcLang).getLang(),
+                Language.from(request.getSrcLang()).getLang(),
                 Language.JAPANESE.getLang());
         TranslatorResponse finalTranslate = transService.translate(
                 middleTranslate.getTranslatedText(),
                 Language.JAPANESE.getLang(),
-                Language.from(tgtLang).getLang());
+                Language.from(request.getTgtLang()).getLang());
 
         return SpellCheckerTranslatorResponse.builder()
-                .originalText(text)
+                .originalText(request.getText())
                 .correctedText(correctedText)
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
