@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
 </head>
 <body>
-<h1>제목</h1>
-<div>내용</div>
+<section class="flex wrap">
+    <div class="input">
+        <label class="pure-material-textfield-outlined">
+      <textarea id="input" placeholder=" " rows="10">&lt;h1&gt;Input&lt;h1&gt;
+Type or paste your input here
+The output will appear on the right side :)</textarea>
+            <span>English 🇬🇧</span>
+        </label>
+        <button id="clear" class="pure-material-button-outlined center">Clear</button>
+    </div>
+    <div class="output">
+        <label class="pure-material-textfield-outlined">
+            <textarea id="output" placeholder=" " rows="10" readonly="readonly"></textarea>
+            <span>Pig Latin 🐷</span>
+        </label>
+        <button id="copy" class="pure-material-button-contained center">Copy</button>
+    </div>
+</section>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>
