@@ -13,6 +13,7 @@ Spell Checker Translator
 
 ## 로그파일
 - 상용에서는 로그파일 생성
+- prd 설정파일
 
 ## 호스트
 - AWS EC2
