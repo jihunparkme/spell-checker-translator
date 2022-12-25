@@ -3,6 +3,8 @@ package com.aaron.spellcheckertranslator.translator.domain;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 @Getter
 @RequiredArgsConstructor
 public enum Language {
@@ -112,8 +114,16 @@ public enum Language {
     XHOSA("xh"),
     YIDDISH("yi"),
     YORUBA("yo"),
-    ZULU("z")
+    ZULU("z"),
+    AUTO("auto")
     ;
 
     private final String lang;
+
+    public static Language from(String lang) {
+        return Arrays.stream(Language.values())
+                .filter(l -> l.lang.equals(lang))
+                .findFirst()
+                .orElse(AUTO);
+    }
 }
