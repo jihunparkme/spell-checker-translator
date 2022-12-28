@@ -6,9 +6,10 @@ function fnSend() {
         data: $("#form").serialize(),
     }).done(function(result) {
         console.log(result);
-        $('#output').val(result.translatedText);
+
+        translatedText = result.translatedText.replace("\\\"n", "\n")
+        $('#output').val(translatedText);
         $('#corrected-original-text').val(result.originalText);
-        $('#translated-original-text').val(result.translatedOriginalText);
     }).fail(function (error) {
         $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
     });
