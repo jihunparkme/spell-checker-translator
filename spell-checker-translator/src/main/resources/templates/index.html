@@ -25,8 +25,10 @@
                 <span>Korea</span>
             </label>
             <div>
-                <button id="clear" class="pure-material-button-outlined">Clear</button>
-                <button id="send" class="pure-material-button-contained" th:onclick="'fnSend()'">Send</button>
+                <div class="button-outline">
+                    <button id="clear" class="pure-material-button-outlined">Clear</button>
+                    <button id="send" class="pure-material-button-contained" th:onclick="'fnSend()'">Send</button>
+                </div>
             </div>
         </div>
         <div class="output">
@@ -35,7 +37,9 @@
                 <span>English</span>
             </label>
             <div>
-                <button id="copy" class="pure-material-button-contained">Copy</button>
+                <div class="button-outline">
+                    <button id="copy" class="pure-material-button-contained">Copy</button>
+                </div>
             </div>
         </div>
     </form>

@@ -125,6 +125,10 @@ aside {
     font-family: "Lucida Console", Monaco, monospace;
 }
 
+.button-outline {
+    float: right;
+}
+
 .pure-material-button-contained {
     position: relative;
     display: inline-block;
