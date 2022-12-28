@@ -34,6 +34,7 @@ public class GoogleTransClientService implements TranslatorClientService {
             if (HttpStatus.OK.equals(HttpStatus.valueOf(response.statusCode()))) {
                 return response.body();
             }
+            log.error("fail to call pusan spell check api, {}", response.statusCode());
         } catch (Exception e) {
             log.error("fail to call pusan spell check api", e);
         }
