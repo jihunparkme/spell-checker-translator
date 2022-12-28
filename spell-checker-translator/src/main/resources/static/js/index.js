@@ -2,7 +2,7 @@ const R_TEXT = /([^<>]+)(?=(<|$))/g;
 const R_WORD = /[a-zA-Z]+/g;
 const VOWELS = 'aeiou';
 
-const text = document.querySelector('#input');
+const text = document.querySelector('#text');
 const clear = document.querySelector('#clear');
 const output = document.querySelector('#output');
 const copy = document.querySelector('#copy');
