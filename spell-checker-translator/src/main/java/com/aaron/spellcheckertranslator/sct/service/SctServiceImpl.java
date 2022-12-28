@@ -22,6 +22,21 @@ public class SctServiceImpl implements SctService {
         SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
         String correctedText = response.getCorrectedText();
 
+        TranslatorResponse originalTranslate = getTranslatedResponse(request, request.getText());
+        TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
+
+        log.info("REQUEST:: original: {}, result: {}",
+                request.getText(), finalTranslate.getTranslatedText());
+        return SpellCheckerTranslatorResponse.builder()
+                .originalText(request.getText())
+                .correctedText(correctedText)
+                .spellCheckErrInfo(response.getErrInfo())
+                .translatedOriginalText(originalTranslate.getTranslatedText())
+                .translatedText(finalTranslate.getTranslatedText())
+                .build();
+    }
+
+    private TranslatorResponse getTranslatedResponse(SpellCheckerTranslatorRequest request, String correctedText) {
         TranslatorResponse middleTranslate = transService.translate(
                 correctedText,
                 Language.from(request.getSrcLang()).getLang(),
@@ -31,12 +46,6 @@ public class SctServiceImpl implements SctService {
                 Language.JAPANESE.getLang(),
                 Language.from(request.getTgtLang()).getLang());
 
-        log.info("REQUEST:: original: {}, result: {}", request.getText(), finalTranslate.getTranslatedText());
-        return SpellCheckerTranslatorResponse.builder()
-                .originalText(request.getText())
-                .correctedText(correctedText)
-                .spellCheckErrInfo(response.getErrInfo())
-                .translatedText(finalTranslate.getTranslatedText())
-                .build();
+        return finalTranslate;
     }
 }
