@@ -2,28 +2,10 @@ const R_TEXT = /([^<>]+)(?=(<|$))/g;
 const R_WORD = /[a-zA-Z]+/g;
 const VOWELS = 'aeiou';
 
-const input = document.querySelector('#input');
+const text = document.querySelector('#text');
 const clear = document.querySelector('#clear');
 const output = document.querySelector('#output');
 const copy = document.querySelector('#copy');
-
-input.onfocus = () => {
-    input.select();
-};
-output.onfocus = () => {
-    output.select();
-};
-
-input.oninput = () => {
-    const inputValue = input.value;
-    try {
-        const json = JSON.parse(inputValue);
-        traverse(json, translateHtml);
-        output.value = JSON.stringify(json, null, 2);
-    } catch (e) {
-        output.value = translateHtml(inputValue);
-    }
-};
 
 const traverse = (object, callback) => {
     for (let property in object) {
@@ -68,7 +50,7 @@ const isVowel = (word, index) => {
 };
 
 clear.onclick = () => {
-    input.value = '';
+    text.value = '';
     output.value = '';
 };
 
@@ -76,5 +58,3 @@ copy.onclick = () => {
     output.select();
     document.execCommand('copy');
 };
-
-input.oninput();

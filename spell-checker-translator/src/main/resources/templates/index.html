@@ -2,27 +2,47 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>맞역기</title>
     <link th:href="@{/css/index.css}" rel="stylesheet"/>
 </head>
 <body>
-<h1>translator</h1>
-<section class="flex wrap">
-    <div class="input">
-        <label class="pure-material-textfield-outlined">
-            <textarea id="input" placeholder=" " rows="10"></textarea>
-            <span>Korea</span>
-        </label>
-        <button id="clear" class="pure-material-button-outlined center">Clear</button>
+<div class="header">
+    <div class="header-inner">
+        <h1 class="logo">Spechlator</h1>
+        <ul class="menu">
+            <li><a class="" href="#" title=""><span>맞역기</span></a></li>
+            <li><a class="" href="#" title=""><span>번역</span></a></li>
+        </ul>
     </div>
-    <div class="output">
-        <label class="pure-material-textfield-outlined">
-            <textarea id="output" placeholder=" " rows="10" readonly="readonly"></textarea>
-            <span>English</span>
-        </label>
-        <button id="copy" class="pure-material-button-contained center">Copy</button>
-    </div>
+</div>
+<section>
+    <form id="form" name="form" class="flex wrap" onsubmit="return false">
+        <input type="hidden" id="srcLang" name="srcLang" value="ko">
+        <input type="hidden" id="tgtLang" name="tgtLang" value="en">
+        <div class="input">
+            <label class="pure-material-textfield-outlined">
+                <textarea id="text" name="text" placeholder=" " rows="10"></textarea>
+                <span>Korea</span>
+            </label>
+            <div>
+                <button id="clear" class="pure-material-button-outlined">Clear</button>
+                <button id="send" class="pure-material-button-contained" th:onclick="'fnSend()'">Send</button>
+            </div>
+        </div>
+        <div class="output">
+            <label class="pure-material-textfield-outlined">
+                <textarea id="output" placeholder=" " rows="10" readonly="readonly"></textarea>
+                <span>English</span>
+            </label>
+            <div>
+                <button id="copy" class="pure-material-button-contained">Copy</button>
+            </div>
+        </div>
+    </form>
 </section>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-3.6.3.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/js/index.js}"></script>
+<script type="text/javascript" th:src="@{/js/index-fn.js}"></script>
 </body>
 </html>
