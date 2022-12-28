@@ -12,7 +12,6 @@ public class SpellCheckerTranslatorResponse {
     private String originalText;
     private String correctedText;
     List<ErrInfo> spellCheckErrInfo;
-    private String translatedOriginalText;
     private String translatedText;
 
 }

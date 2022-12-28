@@ -22,7 +22,6 @@ public class SctServiceImpl implements SctService {
         SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
         String correctedText = response.getCorrectedText();
 
-        TranslatorResponse originalTranslate = getTranslatedResponse(request, request.getText());
         TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
 
         log.info("REQUEST:: original: {}, result: {}",
@@ -31,7 +30,6 @@ public class SctServiceImpl implements SctService {
                 .originalText(request.getText())
                 .correctedText(correctedText)
                 .spellCheckErrInfo(response.getErrInfo())
-                .translatedOriginalText(originalTranslate.getTranslatedText())
                 .translatedText(finalTranslate.getTranslatedText())
                 .build();
     }

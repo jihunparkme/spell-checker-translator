@@ -19,6 +19,7 @@ public class SctApiController {
 
     @PostMapping("/request")
     public SpellCheckerTranslatorResponse request(SpellCheckerTranslatorRequest request) {
+        request.setText(request.getText().replace("\r\n", "\n"));
         return sctService.spellCheckAndTranslator(request);
     }
 }
