@@ -1,14 +1,12 @@
-package com.aaron.spellcheckertranslator.translator.controller;
+package com.aaron.spellcheckertranslator.translator.google.controller;
 
-import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
-import com.aaron.spellcheckertranslator.translator.domain.Language;
-import com.aaron.spellcheckertranslator.translator.domain.TranslatorRequest;
-import com.aaron.spellcheckertranslator.translator.domain.TranslatorResponse;
-import com.aaron.spellcheckertranslator.translator.service.GoogleTransService;
+import com.aaron.spellcheckertranslator.translator.google.domain.Language;
+import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorRequest;
+import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

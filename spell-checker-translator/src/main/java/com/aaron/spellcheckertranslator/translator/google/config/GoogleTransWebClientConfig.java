@@ -1,4 +1,4 @@
-package com.aaron.spellcheckertranslator.translator.config;
+package com.aaron.spellcheckertranslator.translator.google.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

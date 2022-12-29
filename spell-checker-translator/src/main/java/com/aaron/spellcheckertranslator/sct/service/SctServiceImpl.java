@@ -4,9 +4,9 @@ import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
-import com.aaron.spellcheckertranslator.translator.domain.Language;
-import com.aaron.spellcheckertranslator.translator.domain.TranslatorResponse;
-import com.aaron.spellcheckertranslator.translator.service.GoogleTransService;
+import com.aaron.spellcheckertranslator.translator.google.domain.Language;
+import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
