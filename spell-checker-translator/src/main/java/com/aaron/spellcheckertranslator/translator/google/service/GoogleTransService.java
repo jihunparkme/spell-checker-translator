@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.google.service;
 
+import com.aaron.spellcheckertranslator.translator.common.service.TranslatorService;
 import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
