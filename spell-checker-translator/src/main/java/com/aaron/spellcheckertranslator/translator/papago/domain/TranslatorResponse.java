@@ -7,6 +7,7 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TranslatorResponse {
     private Message message;
+    public static final TranslatorResponse EMPTY = new TranslatorResponse();
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
