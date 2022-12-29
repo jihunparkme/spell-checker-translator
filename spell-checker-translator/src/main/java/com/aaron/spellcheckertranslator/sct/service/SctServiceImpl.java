@@ -5,7 +5,7 @@ import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRespons
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
-import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

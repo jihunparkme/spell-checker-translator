@@ -1,4 +1,4 @@
-package com.aaron.spellcheckertranslator.translator.google.domain;
+package com.aaron.spellcheckertranslator.translator.common.domain;
 
 import lombok.Builder;
 import lombok.Getter;

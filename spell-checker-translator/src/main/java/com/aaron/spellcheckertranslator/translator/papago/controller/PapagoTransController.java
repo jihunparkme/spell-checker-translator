@@ -1,8 +1,8 @@
 package com.aaron.spellcheckertranslator.translator.papago.controller;
 
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
-import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorRequest;
-import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.papago.service.PapagoTransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

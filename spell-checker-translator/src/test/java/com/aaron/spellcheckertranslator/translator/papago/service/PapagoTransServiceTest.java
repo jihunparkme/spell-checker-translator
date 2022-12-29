@@ -1,7 +1,7 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
-import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

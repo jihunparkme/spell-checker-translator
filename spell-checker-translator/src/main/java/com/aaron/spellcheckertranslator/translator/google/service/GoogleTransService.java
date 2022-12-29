@@ -1,7 +1,7 @@
 package com.aaron.spellcheckertranslator.translator.google.service;
 
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorService;
-import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
