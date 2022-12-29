@@ -42,7 +42,7 @@ public class GoogleTransService implements TranslatorService {
             }
         }
 
-        return sb.toString();
+        return sb.toString().replace("\"n", "\n");
     }
 
     private void getTranslatedText(StringBuffer sb, String matcherText) {
