@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -21,6 +22,34 @@ public class PusanSpellCheckerService implements SpellCheckerService {
 
     @Override
     public SpellCheckerResponse spellCheck(String text) {
+
+        String[] separatedLines = text.split("\n");
+        int size = separatedLines.length;
+
+        StringBuffer sb = new StringBuffer();
+        List<ErrInfo> errInfo = new ArrayList<>();
+        for (int idx = 0; idx < size; idx++) {
+            String line = separatedLines[idx];
+            SpellCheckerResponse spellCheckerResponse = spellCheckByLine(line);
+            sb.append(spellCheckerResponse.getCorrectedText());
+            if (isInnerLine(size, idx)) {
+                sb.append("\n");
+            }
+            errInfo.addAll(spellCheckerResponse.getErrInfo());
+        }
+
+        return SpellCheckerResponse.builder()
+                .originalText(text)
+                .correctedText(sb.toString())
+                .errInfo(errInfo)
+                .build();
+    }
+
+    private boolean isInnerLine(int size, int idx) {
+        return idx < size - 1;
+    }
+
+    private SpellCheckerResponse spellCheckByLine(String text) {
         String response = pusanSpellCheckerApiService.spellCheck(text);
         if (StringUtils.isBlank(response)) {
             return SpellCheckerResponse.getDefaultResponse(text);

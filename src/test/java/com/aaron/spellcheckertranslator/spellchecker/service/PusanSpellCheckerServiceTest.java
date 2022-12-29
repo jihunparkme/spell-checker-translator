@@ -36,6 +36,12 @@ class PusanSpellCheckerServiceTest {
     }
 
     @Test
+    void spellCheck3_1() {
+        SpellCheckerResponse spellCheckerResponse = spellCheckerService.spellCheck("내 이름은 아론입니다.");
+        assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("내 이름은 아론입니다.");
+    }
+
+    @Test
     void spellCheck4() {
         SpellCheckerResponse spellCheckerResponse = spellCheckerService.spellCheck("내 이름은 아론입니다...");
         assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("내 이름은 아론입니다….");
@@ -45,5 +51,12 @@ class PusanSpellCheckerServiceTest {
     void spellCheck5() {
         SpellCheckerResponse spellCheckerResponse = spellCheckerService.spellCheck("대상 클래스만 다를뿐 로직은 유사하고, 대상 클래스 개수만큼 프록시 클래스 생성 필요");
         assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("대상 클래스만 다를 뿐 로직은 유사하고, 대상 클래스 개수만큼 프락시 클래스 생성 필요");
+    }
+
+    @Test
+    void spellCheck6() {
+        String text = "안녕하세요!\n제 이름은말이죠\n무엇인지궁금하시죠?\n맞춰보세요";
+        SpellCheckerResponse spellCheckerResponse = spellCheckerService.spellCheck(text);
+        assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("안녕하세요!\n제 이름은 말이죠\n무엇인지 궁금하시죠?\n맞춰보세요.");
     }
 }
