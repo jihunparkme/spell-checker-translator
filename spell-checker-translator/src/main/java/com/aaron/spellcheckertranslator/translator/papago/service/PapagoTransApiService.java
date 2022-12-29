@@ -1,15 +1,18 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorApiService;
 import com.aaron.spellcheckertranslator.translator.papago.domain.TranslatorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PapagoTransApiService implements TranslatorApiService {
@@ -19,20 +22,24 @@ public class PapagoTransApiService implements TranslatorApiService {
 
     @Override
     public String translate(String text, String sourceLanguage, String targetLanguage) {
+        String response = clientService.translate(getEncodedText(text), sourceLanguage, targetLanguage);
+        TranslatorResponse responseObject = getResponseObject(response);
+        return responseObject.getTranslatedText();
+    }
+
+    private String getEncodedText(String text) {
         try {
-            text = URLEncoder.encode(text, "UTF-8");
+            return URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("인코딩 실패", e);
+            throw new TranslatorException("fail to encoding", e);
         }
+    }
 
-        String response = clientService.translate(text, sourceLanguage, targetLanguage);
-        TranslatorResponse responseBody = TranslatorResponse.EMPTY;
+    private TranslatorResponse getResponseObject(String response) {
         try {
-            responseBody = mapper.readValue(response, TranslatorResponse.class);
+            return mapper.readValue(response, TranslatorResponse.class);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new TranslatorException("fail to json parsing", e);
         }
-
-        return responseBody.getTranslatedText();
     }
 }
