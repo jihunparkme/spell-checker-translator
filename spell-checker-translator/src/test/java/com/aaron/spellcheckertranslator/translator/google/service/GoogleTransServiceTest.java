@@ -1,4 +1,4 @@
-package com.aaron.spellcheckertranslator.translator.service;
+package com.aaron.spellcheckertranslator.translator.google.service;
 
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
 import com.aaron.spellcheckertranslator.translator.google.domain.TranslatorResponse;
