@@ -38,7 +38,7 @@ class PusanSpellCheckerServiceTest {
     @Test
     void spellCheck4() {
         SpellCheckerResponse spellCheckerResponse = spellCheckerService.spellCheck("내 이름은 아론입니다...");
-        assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("내 이름은 아론입니다...");
+        assertThat(spellCheckerResponse.getCorrectedText()).isEqualTo("내 이름은 아론입니다….");
     }
 
     @Test

@@ -90,7 +90,7 @@ public class GoogleApiTest {
             }
         }
         String result = sb.toString();
-        assertThat(result).isEqualTo("'Should I step down from managing Twitter?' An unprecedented situation occurred in which the majority of respondents voted in favor of a vote cast by Tesla CEO Elon Musk. Tesla stock, which had plummeted for a while due to Musk's bizarre management moves, welcomed the news with a surge. The market's attention is focused on whether Musk, who announced that he will \"follow the survey results,\" will actually step down from the management front.");
+        assertThat(result).isEqualTo("'Should I step down from managing Twitter?' An unprecedented incident occurred in which the majority of respondents voted in favor of a vote cast by Tesla CEO Elon Musk. Tesla stock, which had plummeted for a while due to Musk's bizarre management moves, welcomed the news with a surge. The market's attention is focused on whether Musk, who announced that he will \"follow the survey results,\" will actually step down from the management front.");
     }
 
     @Test

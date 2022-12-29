@@ -1,10 +1,12 @@
-package com.aaron.spellcheckertranslator.translator.domain;
+package com.aaron.spellcheckertranslator.translator.common.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class TranslatorRequest {
     private String text;
     private String srcLang;
