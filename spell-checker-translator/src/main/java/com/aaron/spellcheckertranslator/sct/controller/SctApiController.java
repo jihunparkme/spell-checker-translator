@@ -17,9 +17,13 @@ public class SctApiController {
 
     private final SctServiceImpl sctService;
 
-    @PostMapping("/request")
-    public SpellCheckerTranslatorResponse request(SpellCheckerTranslatorRequest request) {
-        request.setText(request.getText().replace("\r\n", "\n"));
-        return sctService.spellCheckAndTranslator(request);
+    @PostMapping("/request-tr-gg")
+    public SpellCheckerTranslatorResponse requestApplyGoogle(SpellCheckerTranslatorRequest request) {
+        return sctService.spellCheckAndTranslatorApplyGoogle(request);
+    }
+
+    @PostMapping("/request-tr-pp")
+    public SpellCheckerTranslatorResponse requestApplyPapago(SpellCheckerTranslatorRequest request) {
+        return sctService.spellCheckAndTranslatorApplyPapago(request);
     }
 }

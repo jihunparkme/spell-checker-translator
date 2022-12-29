@@ -8,6 +8,7 @@ import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorReque
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
+import com.aaron.spellcheckertranslator.translator.papago.service.PapagoTransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SctServiceImpl implements SctService {
     private final PusanSpellCheckerService spellCheckerService;
-    private final GoogleTransService transService;
+    private final GoogleTransService googleTransService;
+    private final PapagoTransService papagoTransService;
 
-    public SpellCheckerTranslatorResponse spellCheckAndTranslator(SpellCheckerTranslatorRequest request) {
-        SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
+    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request) {
+        SpellCheckerResponse response = getSpellCheckerResponse(request);
+
         String correctedText = response.getCorrectedText();
-
         TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
 
         log.info("REQUEST:: original: {}, result: {}",
@@ -35,22 +37,47 @@ public class SctServiceImpl implements SctService {
                 .build();
     }
 
+    @Override
+    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyPapago(SpellCheckerTranslatorRequest request) {
+        SpellCheckerResponse response = getSpellCheckerResponse(request);
+
+        String correctedText = response.getCorrectedText();
+        TranslatorResponse finalTranslate = papagoTransService.translate(TranslatorRequest.builder()
+                .text(correctedText)
+                .srcLang(Language.from(request.getSrcLang()).getLang())
+                .tgtLang(Language.from(request.getTgtLang()).getLang())
+                .build());
+
+        log.info("REQUEST:: original: {}, result: {}",
+                request.getText(), finalTranslate.getTranslatedText());
+        return SpellCheckerTranslatorResponse.builder()
+                .originalText(request.getText())
+                .correctedText(correctedText)
+                .spellCheckErrInfo(response.getErrInfo())
+                .translatedText(finalTranslate.getTranslatedText())
+                .build();
+    }
+
+    private SpellCheckerResponse getSpellCheckerResponse(SpellCheckerTranslatorRequest request) {
+        request.setText(request.getText().replace("\r\n", "\n"));
+        SpellCheckerResponse response = spellCheckerService.spellCheck(request.getText());
+        return response;
+    }
+
     private TranslatorResponse getTranslatedResponse(SpellCheckerTranslatorRequest request, String correctedText) {
-        TranslatorResponse middleTranslate = transService.translate(
+        TranslatorResponse middleTranslate = googleTransService.translate(
                 TranslatorRequest.builder()
                         .text(request.getText())
                         .srcLang(Language.from(request.getSrcLang()).getLang())
                         .tgtLang(Language.JAPANESE.getLang())
-                        .build()
-        );
+                        .build());
 
-        TranslatorResponse finalTranslate = transService.translate(
+        TranslatorResponse finalTranslate = googleTransService.translate(
                 TranslatorRequest.builder()
                         .text(middleTranslate.getTranslatedText())
                         .srcLang(Language.JAPANESE.getLang())
                         .tgtLang(Language.from(request.getTgtLang()).getLang())
-                        .build()
-        );
+                        .build());
 
         return finalTranslate;
     }

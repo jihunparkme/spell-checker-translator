@@ -4,5 +4,7 @@ import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 
 public interface SctService {
-    SpellCheckerTranslatorResponse spellCheckAndTranslator(SpellCheckerTranslatorRequest request);
+    SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request);
+
+    SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyPapago(SpellCheckerTranslatorRequest request);
 }
