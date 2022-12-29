@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.config;
 
+import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +26,11 @@ public class PapagoTransWebClientConfig {
     public HttpURLConnection createHttpClient() {
         try {
             URL url = new URL(apiUrl);
-            return (HttpURLConnection)url.openConnection();
+            return (HttpURLConnection) url.openConnection();
         } catch (MalformedURLException e) {
-            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+            throw new TranslatorException("API URL이 잘못되었습니다. : " + apiUrl, e);
         } catch (IOException e) {
-            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+            throw new TranslatorException("연결이 실패했습니다. : " + apiUrl, e);
         }
     }
 
