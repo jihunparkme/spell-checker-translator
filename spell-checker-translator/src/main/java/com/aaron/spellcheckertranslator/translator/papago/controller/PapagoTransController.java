@@ -20,10 +20,7 @@ public class PapagoTransController {
 
     @PostMapping("/papago")
     public TranslatorResponse papagoTranslator(TranslatorRequest request) {
-        TranslatorResponse response = transService.translate(
-                request.getText(),
-                Language.from(request.getSrcLang()).getLang(),
-                Language.from(request.getTgtLang()).getLang());
+        TranslatorResponse response = transService.translate(request);
 
         log.info("REQUEST:: original: {}, result: {}", request.getText(), response.getTranslatedText());
         return TranslatorResponse.builder()

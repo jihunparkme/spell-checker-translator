@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorClientService;
 import com.aaron.spellcheckertranslator.translator.papago.config.PapagoTransWebClientConfig;
@@ -19,7 +20,7 @@ public class PapagoTransClientService implements TranslatorClientService {
     private final PapagoTransWebClientConfig webClientConfig;
 
     @Override
-    public String translate(String text, String sourceLanguage, String targetLanguage) {
+    public String translate(TranslatorRequest request) {
         HttpURLConnection con = webClientConfig.createHttpClient();
 
         try {
@@ -27,7 +28,7 @@ public class PapagoTransClientService implements TranslatorClientService {
             setRequestHeaders(con);
 
             con.setDoOutput(true);
-            setRequestPostParams(text, sourceLanguage, targetLanguage, con);
+            setRequestPostParams(request.getText(), request.getSrcLang(), request.getTgtLang(), con);
 
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {

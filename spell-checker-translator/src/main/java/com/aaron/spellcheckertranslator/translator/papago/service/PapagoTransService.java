@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorService;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,10 @@ public class PapagoTransService implements TranslatorService {
     private final PapagoTransApiService apiService;
 
     @Override
-    public TranslatorResponse translate(String text, String sourceLanguage, String targetLanguage) {
-        String translatedText = apiService.translate(text, sourceLanguage, targetLanguage);
+    public TranslatorResponse translate(TranslatorRequest request) {
+        String translatedText = apiService.translate(request);
         return TranslatorResponse.builder()
-                .originalText(text)
+                .originalText(request.getText())
                 .translatedText(translatedText)
                 .build();
     }

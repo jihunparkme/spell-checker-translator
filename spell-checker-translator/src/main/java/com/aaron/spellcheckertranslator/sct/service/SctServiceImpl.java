@@ -4,6 +4,7 @@ import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
@@ -36,13 +37,20 @@ public class SctServiceImpl implements SctService {
 
     private TranslatorResponse getTranslatedResponse(SpellCheckerTranslatorRequest request, String correctedText) {
         TranslatorResponse middleTranslate = transService.translate(
-                correctedText,
-                Language.from(request.getSrcLang()).getLang(),
-                Language.JAPANESE.getLang());
+                TranslatorRequest.builder()
+                        .text(request.getText())
+                        .srcLang(Language.from(request.getSrcLang()).getLang())
+                        .tgtLang(Language.JAPANESE.getLang())
+                        .build()
+        );
+
         TranslatorResponse finalTranslate = transService.translate(
-                middleTranslate.getTranslatedText(),
-                Language.JAPANESE.getLang(),
-                Language.from(request.getTgtLang()).getLang());
+                TranslatorRequest.builder()
+                        .text(middleTranslate.getTranslatedText())
+                        .srcLang(Language.JAPANESE.getLang())
+                        .tgtLang(Language.from(request.getTgtLang()).getLang())
+                        .build()
+        );
 
         return finalTranslate;
     }

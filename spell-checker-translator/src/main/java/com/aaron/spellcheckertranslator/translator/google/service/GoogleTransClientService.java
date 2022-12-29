@@ -1,6 +1,7 @@
 package com.aaron.spellcheckertranslator.translator.google.service;
 
 import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorClientService;
 import com.aaron.spellcheckertranslator.translator.google.config.GoogleTransWebClientConfig;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,12 @@ public class GoogleTransClientService implements TranslatorClientService {
     private final GoogleTransWebClientConfig webClientConfig;
 
     @Override
-    public String translate(String text, String sourceLanguage, String targetLanguage) {
+    public String translate(TranslatorRequest request) {
         HttpClient httpClient = webClientConfig.createHttpClient();
-        HttpRequest request = createHttpRequest(text, sourceLanguage, targetLanguage);
+        HttpRequest httpRequest = createHttpRequest(request.getText(), request.getSrcLang(), request.getTgtLang());
 
         try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             if (HttpStatus.OK.equals(HttpStatus.valueOf(response.statusCode()))) {
                 return response.body();
             }

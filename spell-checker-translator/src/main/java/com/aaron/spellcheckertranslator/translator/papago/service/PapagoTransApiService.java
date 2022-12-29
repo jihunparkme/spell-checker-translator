@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorApiService;
 import com.aaron.spellcheckertranslator.translator.papago.domain.TranslatorResponse;
@@ -21,8 +22,13 @@ public class PapagoTransApiService implements TranslatorApiService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String translate(String text, String sourceLanguage, String targetLanguage) {
-        String response = clientService.translate(getEncodedText(text), sourceLanguage, targetLanguage);
+    public String translate(TranslatorRequest request) {
+        String response = clientService.translate(
+                TranslatorRequest.builder()
+                        .text(getEncodedText(request.getText()))
+                        .srcLang(request.getSrcLang())
+                        .tgtLang(request.getTgtLang())
+                        .build());
         TranslatorResponse responseObject = getResponseObject(response);
         return responseObject.getTranslatedText();
     }

@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.google.service;
 
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorService;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ public class GoogleTransService implements TranslatorService {
     private final GoogleTransApiService apiService;
 
     @Override
-    public TranslatorResponse translate(String text, String sourceLanguage, String targetLanguage) {
-        String response = apiService.translate(text, sourceLanguage, targetLanguage);
+    public TranslatorResponse translate(TranslatorRequest request) {
+        String response = apiService.translate(request);
 
         String translatedText = extractTranslatedText(response);
         return TranslatorResponse.builder()
-                .originalText(text)
+                .originalText(request.getText())
                 .translatedText(translatedText)
                 .build();
     }
