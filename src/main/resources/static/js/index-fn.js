@@ -1,3 +1,16 @@
+const colors = [];
+colors[0] = 'olive';
+colors[1] = 'red';
+colors[2] = 'orange';
+colors[3] = 'green';
+colors[4] = 'blue';
+colors[5] = 'indigo';
+colors[6] = 'purple';
+colors[7] = 'cyan';
+colors[8] = 'skyblue';
+colors[9] = 'salmon';
+colors[10] = 'lime';
+
 function fnSend() {
     $.ajax({
         type: 'POST',
@@ -9,7 +22,8 @@ function fnSend() {
         let originalText = result.originalText.replaceAll("\n", "<br>");
         let correctedText = result.correctedText.replaceAll("\n", "<br>");
         result.spellCheckErrInfo.forEach((errInfo) => {
-            originalText = originalText.replace(errInfo.orgStr, "<span style='color: red'>" + errInfo.orgStr + "</span>");
+            originalText = originalText.replace(errInfo.orgStr, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + errInfo.orgStr + "</span>");
+            correctedText = correctedText.replace(errInfo.candWord, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + errInfo.candWord + "</span>");
         });
 
         $('#output').val(result.translatedText);
