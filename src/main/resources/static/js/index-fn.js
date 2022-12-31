@@ -12,6 +12,10 @@ colors[9] = 'salmon';
 colors[10] = 'lime';
 
 function fnSend() {
+    $('#output').val("Translating...");
+    $('#original-text').html("Processing...");
+    $('#corrected-text').html("Processing...");
+
     $.ajax({
         type: 'POST',
         url: "/spl-ch-trnsl/request-tr-pp",
@@ -23,7 +27,9 @@ function fnSend() {
         let correctedText = result.correctedText.replaceAll("\n", "<br>");
         result.spellCheckErrInfo.forEach((errInfo) => {
             originalText = originalText.replace(errInfo.orgStr, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + errInfo.orgStr + "</span>");
-            correctedText = correctedText.replace(errInfo.candWord, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + errInfo.candWord + "</span>");
+
+            let candWord = errInfo.candWord.split("|")[0];
+            correctedText = correctedText.replace(candWord, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + candWord + "</span>");
         });
 
         $('#output').val(result.translatedText);
