@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'ch.qos.logback:logback-classic'
 	implementation 'ch.qos.logback:logback-core'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.springframework.boot:spring-boot-devtools'

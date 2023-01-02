@@ -30,6 +30,11 @@ function setResultArea(output, origTxt, crtText) {
     $('#corrected-text').html(crtText);
 }
 
+function appendResultArea(originalText, translatedText) {
+    let text = "<p>" + originalText + "<br/><br/>" + translatedText + "</p>"
+    $(".result").after(text);
+}
+
 function fnSend() {
     setResultArea("Translating...", "Processing...", "Processing...");
 
@@ -50,6 +55,8 @@ function fnSend() {
         });
 
         setResultArea(result.translatedText, originalText, correctedText);
+        // 레디스 적용하고 삭제!
+        appendResultArea(result.originalText, result.translatedText);
     }).fail(function (error) {
         $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
     });
