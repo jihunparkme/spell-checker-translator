@@ -11,10 +11,14 @@ colors[8] = 'skyblue';
 colors[9] = 'salmon';
 colors[10] = 'lime';
 
+function setResultArea(output, origTxt, crtText) {
+    $('#output').val(output);
+    $('#original-text').html(origTxt);
+    $('#corrected-text').html(crtText);
+}
+
 function fnSend() {
-    $('#output').val("Translating...");
-    $('#original-text').html("Processing...");
-    $('#corrected-text').html("Processing...");
+    setResultArea("Translating...", "Processing...", "Processing...");
 
     $.ajax({
         type: 'POST',
@@ -32,9 +36,7 @@ function fnSend() {
             correctedText = correctedText.replace(candWord, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + candWord + "</span>");
         });
 
-        $('#output').val(result.translatedText);
-        $('#original-text').html(originalText);
-        $('#corrected-text').html(correctedText);
+        setResultArea(result.translatedText, originalText, correctedText);
     }).fail(function (error) {
         $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
     });
