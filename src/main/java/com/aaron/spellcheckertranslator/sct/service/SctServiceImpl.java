@@ -13,7 +13,6 @@ import com.aaron.spellcheckertranslator.translator.google.domain.Language;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.google.service.GoogleTransService;
 import com.aaron.spellcheckertranslator.translator.papago.service.PapagoTransService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,14 +27,13 @@ public class SctServiceImpl implements SctService {
     private final PapagoTransService papagoTransService;
     private final ResultRedisRepository redisRepository;
 
-    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request,
-                                                                             HttpServletRequest httpRequest) {
+    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request) {
         SpellCheckerResponse response = getSpellCheckerResponse(request);
 
         String correctedText = response.getCorrectedText();
         TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
 
-        saveResult(RequestUtil.getClientIP(httpRequest), request, finalTranslate);
+        saveResult(request, finalTranslate);
 
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());
@@ -47,7 +45,8 @@ public class SctServiceImpl implements SctService {
                 .build();
     }
 
-    private void saveResult(String clientIP, SpellCheckerTranslatorRequest request, TranslatorResponse finalTranslate) {
+    private void saveResult(SpellCheckerTranslatorRequest request, TranslatorResponse finalTranslate) {
+        String clientIP = RequestUtil.getClientIP();
         redisRepository.save(Result.builder()
                 .ip(clientIP)
                 .originalText(request.getText())
@@ -56,8 +55,7 @@ public class SctServiceImpl implements SctService {
     }
 
     @Override
-    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyPapago(SpellCheckerTranslatorRequest request,
-                                                                             HttpServletRequest httpRequest) {
+    public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyPapago(SpellCheckerTranslatorRequest request) {
         SpellCheckerResponse response = getSpellCheckerResponse(request);
 
         String correctedText = response.getCorrectedText();
@@ -67,7 +65,7 @@ public class SctServiceImpl implements SctService {
                 .tgtLang(Language.from(request.getTgtLang()).getLang())
                 .build());
 
-        saveResult(RequestUtil.getClientIP(httpRequest), request, finalTranslate);
+        saveResult(request, finalTranslate);
 
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());

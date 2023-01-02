@@ -21,15 +21,13 @@ public class SctApiController {
     private final SctServiceImpl sctService;
 
     @PostMapping("/request-tr-gg")
-    public SpellCheckerTranslatorResponse requestApplyGoogle(SpellCheckerTranslatorRequest request,
-                                                             HttpServletRequest httpRequest) {
-        return sctService.spellCheckAndTranslatorApplyGoogle(request, httpRequest);
+    public SpellCheckerTranslatorResponse requestApplyGoogle(SpellCheckerTranslatorRequest request) {
+        return sctService.spellCheckAndTranslatorApplyGoogle(request);
     }
 
     @PostMapping("/request-tr-pp")
-    public SpellCheckerTranslatorResponse requestApplyPapago(SpellCheckerTranslatorRequest request,
-                                                             HttpServletRequest httpRequest) {
-        return sctService.spellCheckAndTranslatorApplyPapago(request, httpRequest);
+    public SpellCheckerTranslatorResponse requestApplyPapago(SpellCheckerTranslatorRequest request) {
+        return sctService.spellCheckAndTranslatorApplyPapago(request);
     }
 
     @GetMapping("/results")
