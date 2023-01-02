@@ -26,6 +26,9 @@ dependencies {
 	implementation 'ch.qos.logback:logback-classic'
 	implementation 'ch.qos.logback:logback-core'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'it.ozimov:embedded-redis:0.7.2'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.springframework.boot:spring-boot-devtools'
