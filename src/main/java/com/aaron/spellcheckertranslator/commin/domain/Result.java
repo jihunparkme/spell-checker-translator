@@ -13,11 +13,13 @@ public class Result {
 
     @Id
     private String id;
+    private String ip;
     private String originalText;
     private String translatedText;
 
     @Builder
-    public Result(String originalText, String translatedText) {
+    public Result(String ip, String originalText, String translatedText) {
+        this.ip = ip;
         this.originalText = originalText;
         this.translatedText = translatedText;
     }
