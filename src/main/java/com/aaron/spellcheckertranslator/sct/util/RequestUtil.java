@@ -1,6 +1,7 @@
 package com.aaron.spellcheckertranslator.sct.util;
 
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetAddress;
 import java.net.URLEncoder;
@@ -34,7 +35,7 @@ public class RequestUtil {
         }
 
         if (local == null) {
-            return "";
+            return StringUtils.EMPTY;
         } else {
             String ip = local.getHostAddress();
             return ip;
