@@ -339,6 +339,7 @@ aside {
 
 /* Input, Textarea */
 .pure-material-textfield-outlined > input,
+.pure-material-textfield-outlined > div,
 .pure-material-textfield-outlined > textarea {
     box-sizing: border-box;
     margin: 0;
@@ -361,6 +362,7 @@ aside {
 
 /* Span */
 .pure-material-textfield-outlined > input + span,
+.pure-material-textfield-outlined > div + span,
 .pure-material-textfield-outlined > textarea + span {
     position: absolute;
     top: 0;
@@ -379,6 +381,8 @@ aside {
 /* Corners */
 .pure-material-textfield-outlined > input + span::before,
 .pure-material-textfield-outlined > input + span::after,
+.pure-material-textfield-outlined > div + span::before,
+.pure-material-textfield-outlined > div + span::after,
 .pure-material-textfield-outlined > textarea + span::before,
 .pure-material-textfield-outlined > textarea + span::after {
     content: "";
@@ -395,6 +399,7 @@ aside {
 }
 
 .pure-material-textfield-outlined > input + span::before,
+.pure-material-textfield-outlined > div + span::before,
 .pure-material-textfield-outlined > textarea + span::before {
     margin-right: 4px;
     border-left: solid 1px transparent;
@@ -402,6 +407,7 @@ aside {
 }
 
 .pure-material-textfield-outlined > input + span::after,
+.pure-material-textfield-outlined > div + span::after,
 .pure-material-textfield-outlined > textarea + span::after {
     flex-grow: 1;
     margin-left: 4px;
@@ -411,44 +417,53 @@ aside {
 
 /* Hover */
 .pure-material-textfield-outlined:hover > input,
+.pure-material-textfield-outlined:hover > div,
 .pure-material-textfield-outlined:hover > textarea {
     border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
     border-top-color: transparent;
 }
 
 .pure-material-textfield-outlined:hover > input + span::before,
+.pure-material-textfield-outlined:hover > div + span::before,
 .pure-material-textfield-outlined:hover > textarea + span::before,
 .pure-material-textfield-outlined:hover > input + span::after,
+.pure-material-textfield-outlined:hover > div + span::after,
 .pure-material-textfield-outlined:hover > textarea + span::after {
     border-top-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
 }
 
 .pure-material-textfield-outlined:hover > input:not(:focus):placeholder-shown,
+.pure-material-textfield-outlined:hover > div:not(:focus):placeholder-shown,
 .pure-material-textfield-outlined:hover > textarea:not(:focus):placeholder-shown {
     border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
 }
 
 /* Placeholder-shown */
 .pure-material-textfield-outlined > input:not(:focus):placeholder-shown,
+.pure-material-textfield-outlined > div:not(:focus):placeholder-shown,
 .pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown {
     border-top-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
 }
 
 .pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span,
+.pure-material-textfield-outlined > div:not(:focus):placeholder-shown + span,
 .pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span {
     font-size: inherit;
     line-height: 68px;
 }
 
 .pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span::before,
+.pure-material-textfield-outlined > div:not(:focus):placeholder-shown + span::before,
 .pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span::before,
 .pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span::after,
+.pure-material-textfield-outlined > div:not(:focus):placeholder-shown + span::after,
 .pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span::after {
     border-top-color: transparent;
 }
 
 /* Focus */
 .pure-material-textfield-outlined > input:focus,
+.pure-material-textfield-outlined > div:focus,
 .pure-material-textfield-outlined > textarea:focus {
     border-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
     border-top-color: transparent;
@@ -457,12 +472,15 @@ aside {
 }
 
 .pure-material-textfield-outlined > input:focus + span,
+.pure-material-textfield-outlined > div:focus + span,
 .pure-material-textfield-outlined > textarea:focus + span {
     color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
 }
 
 .pure-material-textfield-outlined > input:focus + span::before,
 .pure-material-textfield-outlined > input:focus + span::after,
+.pure-material-textfield-outlined > div:focus + span::before,
+.pure-material-textfield-outlined > div:focus + span::after,
 .pure-material-textfield-outlined > textarea:focus + span::before,
 .pure-material-textfield-outlined > textarea:focus + span::after {
     border-top-color: var(--pure-material-safari-helper1) !important;
@@ -472,6 +490,8 @@ aside {
 /* Disabled */
 .pure-material-textfield-outlined > input:disabled,
 .pure-material-textfield-outlined > input:disabled + span,
+.pure-material-textfield-outlined > div:disabled,
+.pure-material-textfield-outlined > div:disabled + span,
 .pure-material-textfield-outlined > textarea:disabled,
 .pure-material-textfield-outlined > textarea:disabled + span {
     border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38) !important;
@@ -482,6 +502,8 @@ aside {
 
 .pure-material-textfield-outlined > input:disabled + span::before,
 .pure-material-textfield-outlined > input:disabled + span::after,
+.pure-material-textfield-outlined > div:disabled + span::before,
+.pure-material-textfield-outlined > div:disabled + span::after,
 .pure-material-textfield-outlined > textarea:disabled + span::before,
 .pure-material-textfield-outlined > textarea:disabled + span::after {
     border-top-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38) !important;
@@ -489,6 +511,8 @@ aside {
 
 .pure-material-textfield-outlined > input:disabled:placeholder-shown,
 .pure-material-textfield-outlined > input:disabled:placeholder-shown + span,
+.pure-material-textfield-outlined > div:disabled:placeholder-shown,
+.pure-material-textfield-outlined > div:disabled:placeholder-shown + span,
 .pure-material-textfield-outlined > textarea:disabled:placeholder-shown,
 .pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span {
     border-top-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38) !important;
@@ -496,6 +520,8 @@ aside {
 
 .pure-material-textfield-outlined > input:disabled:placeholder-shown + span::before,
 .pure-material-textfield-outlined > input:disabled:placeholder-shown + span::after,
+.pure-material-textfield-outlined > div:disabled:placeholder-shown + span::before,
+.pure-material-textfield-outlined > div:disabled:placeholder-shown + span::after,
 .pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span::before,
 .pure-material-textfield-outlined > textarea:disabled:placeholder-shown + span::after {
     border-top-color: transparent !important;
@@ -506,10 +532,14 @@ aside {
     @supports (-webkit-appearance:none) {
         .pure-material-textfield-outlined > input,
         .pure-material-textfield-outlined > input + span,
+        .pure-material-textfield-outlined > div,
+        .pure-material-textfield-outlined > div + span,
         .pure-material-textfield-outlined > textarea,
         .pure-material-textfield-outlined > textarea + span,
         .pure-material-textfield-outlined > input + span::before,
         .pure-material-textfield-outlined > input + span::after,
+        .pure-material-textfield-outlined > div + span::before,
+        .pure-material-textfield-outlined > div + span::after,
         .pure-material-textfield-outlined > textarea + span::before,
         .pure-material-textfield-outlined > textarea + span::after {
             transition-duration: 0.1s;
