@@ -1,5 +1,7 @@
 package com.aaron.spellcheckertranslator.sct.service;
 
+import com.aaron.spellcheckertranslator.commin.domain.Result;
+import com.aaron.spellcheckertranslator.commin.repository.ResultRedisRepository;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
@@ -17,15 +19,19 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SctServiceImpl implements SctService {
+
     private final PusanSpellCheckerService spellCheckerService;
     private final GoogleTransService googleTransService;
     private final PapagoTransService papagoTransService;
+    private final ResultRedisRepository redisRepository;
 
     public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request) {
         SpellCheckerResponse response = getSpellCheckerResponse(request);
 
         String correctedText = response.getCorrectedText();
         TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
+
+        saveResult(request, finalTranslate);
 
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());
@@ -35,6 +41,13 @@ public class SctServiceImpl implements SctService {
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
                 .build();
+    }
+
+    private void saveResult(SpellCheckerTranslatorRequest request, TranslatorResponse finalTranslate) {
+        redisRepository.save(Result.builder()
+                .originalText(request.getText())
+                .translatedText(finalTranslate.getTranslatedText())
+                .build());
     }
 
     @Override
@@ -47,6 +60,8 @@ public class SctServiceImpl implements SctService {
                 .srcLang(Language.from(request.getSrcLang()).getLang())
                 .tgtLang(Language.from(request.getTgtLang()).getLang())
                 .build());
+
+
 
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());
