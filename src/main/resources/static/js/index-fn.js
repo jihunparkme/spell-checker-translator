@@ -1,3 +1,16 @@
+$(function () {
+    $('.show').click(function () {
+        $('.text-area').slideDown();
+        $('.show').hide();
+        $('.hide').show();
+    });
+    $('.hide').click(function () {
+        $('.text-area').slideUp();
+        $('.show').show();
+        $('.hide').hide();
+    });
+});
+
 const colors = [];
 colors[0] = 'olive';
 colors[1] = 'red';
@@ -25,7 +38,7 @@ function fnSend() {
         url: "/spl-ch-trnsl/request-tr-pp",
         dataType: 'json',
         data: $("#form").serialize(),
-    }).done(function(result) {
+    }).done(function (result) {
         console.log(result);
         let originalText = result.originalText.replaceAll("\n", "<br>");
         let correctedText = result.correctedText.replaceAll("\n", "<br>");
