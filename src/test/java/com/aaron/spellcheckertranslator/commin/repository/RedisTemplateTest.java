@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -95,5 +96,24 @@ class RedisTemplateTest {
 
         final Set<String> rangeByScore = stringStringZSetOperations.rangeByScore(key, 0, 15);
         Assertions.assertThat(rangeByScore.toArray()).isEqualTo(new String[]{"H", "i", "~", "!"});
+    }
+
+    @Test
+    public void hash_test() {
+        String key = "key01";
+
+        HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+        stringObjectObjectHashOperations.put(key, "Hi01", "apple");
+        stringObjectObjectHashOperations.put(key, "Hi02", "banana");
+        stringObjectObjectHashOperations.put(key, "Hi03", "orange");
+
+        final Object get = stringObjectObjectHashOperations.get(key, "Hi01");
+        Assertions.assertThat(get).isEqualTo("apple");
+
+        final Map<Object, Object> entries = stringObjectObjectHashOperations.entries(key);
+        Assertions.assertThat(entries.get("Hi02")).isEqualTo("banana");
+
+        final Long size = stringObjectObjectHashOperations.size(key);
+        Assertions.assertThat(size).isEqualTo(3);
     }
 }
