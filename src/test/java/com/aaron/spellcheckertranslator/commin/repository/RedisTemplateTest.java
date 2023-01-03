@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Set;
@@ -74,5 +73,25 @@ class RedisTemplateTest {
             sb.append(cursor.next());
         }
         Assertions.assertThat(sb.toString()).isEqualTo("iH");
+    }
+
+    @Test
+    public void sorted_set_test() {
+        String key = "key01";
+
+        ZSetOperations<String, String> stringStringZSetOperations = redisTemplate.opsForZSet();
+        stringStringZSetOperations.add(key, "H", 1);
+        stringStringZSetOperations.add(key, "i", 5);
+        stringStringZSetOperations.add(key, "~", 10);
+        stringStringZSetOperations.add(key, "!", 15);
+
+        final Set<String> range = stringStringZSetOperations.range(key, 0, 3);
+        Assertions.assertThat(range.toArray()).isEqualTo(new String[]{"H", "i", "~", "!"});
+
+        final Long size = stringStringZSetOperations.size(key);
+        Assertions.assertThat(size).isEqualTo(4);
+
+        final Set<String> rangeByScore = stringStringZSetOperations.rangeByScore(key, 0, 15);
+        Assertions.assertThat(rangeByScore.toArray()).isEqualTo(new String[]{"H", "i", "~", "!"});
     }
 }
