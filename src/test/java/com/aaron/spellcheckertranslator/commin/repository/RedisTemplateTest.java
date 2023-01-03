@@ -5,14 +5,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Set;
 
 @Slf4j
 @SpringBootTest
@@ -54,5 +53,26 @@ class RedisTemplateTest {
 
         final List<String> resultString = stringStringListOperations.range(key, 0, 7);
         Assertions.assertThat(resultString).isEqualTo(Arrays.asList(new String[]{"H", "i", " ", "a", "a", "r", "o", "n"}));
+    }
+
+    @Test
+    public void set_test() {
+        String key = "key01";
+        SetOperations<String, String> stringStringSetOperations = redisTemplate.opsForSet();
+        stringStringSetOperations.add(key, "H");
+        stringStringSetOperations.add(key, "i");
+
+        final Set<String> members = stringStringSetOperations.members(key);
+        Assertions.assertThat(members.toArray()).isEqualTo(new String[]{"i", "H"});
+
+        final Long size = stringStringSetOperations.size(key);
+        Assertions.assertThat(size).isEqualTo(2);
+
+        StringBuffer sb = new StringBuffer();
+        final Cursor<String> cursor = stringStringSetOperations.scan(key, ScanOptions.scanOptions().match("*").count(3).build());
+        while(cursor.hasNext()) {
+            sb.append(cursor.next());
+        }
+        Assertions.assertThat(sb.toString()).isEqualTo("iH");
     }
 }
