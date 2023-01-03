@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @RedisHash(value = "result", timeToLive = 3600)
@@ -15,6 +16,7 @@ public class Result {
 
     @Id
     private String id;
+    @Indexed
     private String ip;
     private String originalText;
     private String translatedText;

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 @Slf4j
 @SpringBootTest
 @ActiveProfiles("prd")
@@ -23,22 +25,49 @@ class ResultRedisRepositoryTest {
     }
 
     @Test
-    void test() throws Exception {
+    void save() throws Exception {
         // given
-        Result save = Result.builder()
+        Result result = Result.builder()
                 .ip("127.0.0.1")
                 .originalText("안녕하세요.")
                 .translatedText("hello")
                 .build();
 
         // when
-        Result hello = redisRepository.save(save);
+        Result save = redisRepository.save(result);
 
         // then
-        Result find = redisRepository.findById(hello.getId()).get();
+        Result find = redisRepository.findById(save.getId()).get();
+        log.info("id: {}", find.getId());
+        log.info("original text: {}", find.getOriginalText());
+        log.info("translated text: {}", find.getTranslatedText());
 
-        Assertions.assertThat(hello.getIp()).isEqualTo(find.getIp());
-        Assertions.assertThat(hello.getOriginalText()).isEqualTo(find.getOriginalText());
-        Assertions.assertThat(hello.getOriginalText()).isEqualTo(find.getOriginalText());
+        Assertions.assertThat(save.getIp()).isEqualTo(find.getIp());
+        Assertions.assertThat(save.getOriginalText()).isEqualTo(find.getOriginalText());
+        Assertions.assertThat(save.getTranslatedText()).isEqualTo(find.getTranslatedText());
+    }
+
+    @Test
+    void save_multi() throws Exception {
+        // given
+        Result rst1 = Result.builder()
+                .ip("127.0.0.1")
+                .originalText("안녕하세요.")
+                .translatedText("hello")
+                .build();
+
+        Result rst2 = Result.builder()
+                .ip("127.0.0.1")
+                .originalText("반갑습니다.")
+                .translatedText("Nice to meet you.")
+                .build();
+
+        // when
+        redisRepository.save(rst1);
+        redisRepository.save(rst2);
+
+        // then
+        List<Result> results = redisRepository.findByIp(rst1.getIp()).get();
+        Assertions.assertThat(results.size()).isEqualTo(2);
     }
 }
