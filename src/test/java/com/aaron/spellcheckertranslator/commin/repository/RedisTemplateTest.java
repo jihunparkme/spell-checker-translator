@@ -5,9 +5,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Arrays;
 
 @Slf4j
 @SpringBootTest
@@ -24,14 +29,30 @@ class RedisTemplateTest {
         ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
         stringStringValueOperations.set(key, "1");
 
-        String result01 = stringStringValueOperations.get(key);
+        final String result01 = stringStringValueOperations.get(key);
         Assertions.assertThat(result01).isEqualTo("1");
-        log.info("result01: {}", result01);
 
         stringStringValueOperations.increment(key);
 
-        String result02 = stringStringValueOperations.get(key);
+        final String result02 = stringStringValueOperations.get(key);
         Assertions.assertThat(result02).isEqualTo("2");
-        log.info("result02: {}", result02);
+    }
+
+    @Test
+    public void list_test() {
+        String key = "key01";
+        ListOperations<String, String> stringStringListOperations = redisTemplate.opsForList();
+        stringStringListOperations.rightPush(key, "H");
+        stringStringListOperations.rightPush(key, "i");
+        stringStringListOperations.rightPushAll(key, " ", "a", "a", "r", "o", "n");
+
+        final String indexOfFirst = stringStringListOperations.index(key, 1);
+        Assertions.assertThat(indexOfFirst).isEqualTo("i");
+
+        final Long size = stringStringListOperations.size(key);
+        Assertions.assertThat(size).isEqualTo(8);
+
+        final List<String> resultString = stringStringListOperations.range(key, 0, 7);
+        Assertions.assertThat(resultString).isEqualTo(Arrays.asList(new String[]{"H", "i", " ", "a", "a", "r", "o", "n"}));
     }
 }
