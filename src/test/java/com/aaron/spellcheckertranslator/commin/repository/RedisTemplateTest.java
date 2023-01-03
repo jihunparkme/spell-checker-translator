@@ -39,6 +39,7 @@ class RedisTemplateTest {
     @Test
     public void list_test() {
         String key = "key01";
+
         ListOperations<String, String> stringStringListOperations = redisTemplate.opsForList();
         stringStringListOperations.rightPush(key, "H");
         stringStringListOperations.rightPush(key, "i");
@@ -57,6 +58,7 @@ class RedisTemplateTest {
     @Test
     public void set_test() {
         String key = "key01";
+
         SetOperations<String, String> stringStringSetOperations = redisTemplate.opsForSet();
         stringStringSetOperations.add(key, "H");
         stringStringSetOperations.add(key, "i");
