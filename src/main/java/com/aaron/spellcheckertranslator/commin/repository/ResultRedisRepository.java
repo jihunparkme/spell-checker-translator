@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ResultRedisRepository extends JpaRepository<ResultHistory, String> {
-    Optional<List<ResultHistory>> findByIp(String ip);
+    Optional<List<ResultHistory>> findByIpOrderByCreateDateTimeDesc(String ip);
 }

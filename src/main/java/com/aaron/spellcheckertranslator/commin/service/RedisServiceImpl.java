@@ -17,7 +17,7 @@ public class RedisServiceImpl {
     public ResultHistoryResponse searchResultHistory() {
         String clientIP = RequestUtil.getClientIP();
         return ResultHistoryResponse.builder()
-                .data(redisRepository.findByIp(clientIP).get())
+                .data(redisRepository.findByIpOrderByCreateDateTimeDesc(clientIP).get())
                 .build();
     }
 }

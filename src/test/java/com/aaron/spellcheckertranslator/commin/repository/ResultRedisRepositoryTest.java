@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -31,6 +33,7 @@ class ResultRedisRepositoryTest {
                 .ip("127.0.0.1")
                 .originalText("안녕하세요.")
                 .translatedText("hello")
+                .createDateTime(LocalDateTime.now())
                 .build();
 
         // when
@@ -54,18 +57,21 @@ class ResultRedisRepositoryTest {
                 .ip("127.0.0.1")
                 .originalText("안녕하세요.")
                 .translatedText("hello")
+                .createDateTime(LocalDateTime.now())
                 .build();
 
         ResultHistory rst2 = ResultHistory.builder()
                 .ip("127.0.0.1")
                 .originalText("반갑습니다.")
                 .translatedText("Nice to meet you.")
+                .createDateTime(LocalDateTime.now())
                 .build();
 
         ResultHistory rst3 = ResultHistory.builder()
                 .ip("127.1.1.1")
                 .originalText("반갑습니다.")
                 .translatedText("Nice to meet you.")
+                .createDateTime(LocalDateTime.now())
                 .build();
 
         // when
@@ -74,7 +80,42 @@ class ResultRedisRepositoryTest {
         redisRepository.save(rst3);
 
         // then
-        List<ResultHistory> results = redisRepository.findByIp("127.0.0.1").get();
+        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeDesc("127.0.0.1").get();
         Assertions.assertThat(results.size()).isEqualTo(2);
+    }
+
+    @Test
+    void search_order_by() throws Exception {
+        // given
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ResultHistory rst1 = ResultHistory.builder()
+                .ip("127.0.0.1")
+                .originalText("안녕하세요.")
+                .translatedText("hello")
+                .createDateTime(LocalDateTime.parse("2023-01-05 20:20:20", dateTimeFormatter))
+                .build();
+
+        ResultHistory rst2 = ResultHistory.builder()
+                .ip("127.0.0.1")
+                .originalText("반갑습니다.")
+                .translatedText("Nice to meet you.")
+                .createDateTime(LocalDateTime.parse("2023-01-05 20:21:20", dateTimeFormatter))
+                .build();
+
+        ResultHistory rst3 = ResultHistory.builder()
+                .ip("127.0.0.1")
+                .originalText("반갑습니다.")
+                .translatedText("Nice to meet you.")
+                .createDateTime(LocalDateTime.parse("2023-01-05 20:22:20", dateTimeFormatter))
+                .build();
+
+        // when
+        redisRepository.save(rst1);
+        redisRepository.save(rst2);
+        redisRepository.save(rst3);
+
+        // then
+        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeDesc("127.0.0.1").get();
+        Assertions.assertThat(results.get(0).getCreateDateTime()).isEqualTo(LocalDateTime.parse("2023-01-05 20:22:20", dateTimeFormatter));
     }
 }

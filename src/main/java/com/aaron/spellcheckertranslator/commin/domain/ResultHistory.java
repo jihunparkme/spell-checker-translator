@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
+import java.time.LocalDateTime;
+
 @Getter
 @RedisHash(value = "result", timeToLive = 3600)
 @AllArgsConstructor
@@ -20,11 +22,14 @@ public class ResultHistory {
     private String ip;
     private String originalText;
     private String translatedText;
+    @Indexed
+    private LocalDateTime createDateTime;
 
     @Builder
-    public ResultHistory(String ip, String originalText, String translatedText) {
+    public ResultHistory(String ip, String originalText, String translatedText, LocalDateTime createDateTime) {
         this.ip = ip;
         this.originalText = originalText;
         this.translatedText = translatedText;
+        this.createDateTime = createDateTime;
     }
 }
