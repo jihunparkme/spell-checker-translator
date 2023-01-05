@@ -9,7 +9,21 @@ $(function () {
         $('.show').show();
         $('.hide').hide();
     });
+
+    initResultHistory();
 });
+
+function initResultHistory() {
+    $.ajax({
+        type: 'POST',
+        url: "/redis/result/history",
+        dataType: 'json',
+    }).done(function (result) {
+        result.data.forEach((data) => {
+            appendResultArea(data.originalText, data.translatedText);
+        });
+    });
+}
 
 const colors = [];
 colors[0] = 'olive';
@@ -55,7 +69,6 @@ function fnSend() {
         });
 
         setResultArea(result.translatedText, originalText, correctedText);
-        // 레디스 적용하고 삭제!
         appendResultArea(result.originalText, result.translatedText);
     }).fail(function (error) {
         $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");

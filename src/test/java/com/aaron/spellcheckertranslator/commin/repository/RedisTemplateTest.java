@@ -2,6 +2,7 @@ package com.aaron.spellcheckertranslator.commin.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,10 +22,15 @@ class RedisTemplateTest {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    private String key = "key01";
+
+    @AfterEach
+    void afterAll() {
+        redisTemplate.delete(key);
+    }
+
     @Test
     public void string_test() {
-        String key = "key01";
-
         ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
         stringStringValueOperations.set(key, "1");
 
@@ -39,8 +45,6 @@ class RedisTemplateTest {
 
     @Test
     public void list_test() {
-        String key = "key01";
-
         ListOperations<String, String> stringStringListOperations = redisTemplate.opsForList();
         stringStringListOperations.rightPush(key, "H");
         stringStringListOperations.rightPush(key, "i");
@@ -58,8 +62,6 @@ class RedisTemplateTest {
 
     @Test
     public void set_test() {
-        String key = "key01";
-
         SetOperations<String, String> stringStringSetOperations = redisTemplate.opsForSet();
         stringStringSetOperations.add(key, "H");
         stringStringSetOperations.add(key, "i");
@@ -80,8 +82,6 @@ class RedisTemplateTest {
 
     @Test
     public void sorted_set_test() {
-        String key = "key01";
-
         ZSetOperations<String, String> stringStringZSetOperations = redisTemplate.opsForZSet();
         stringStringZSetOperations.add(key, "H", 1);
         stringStringZSetOperations.add(key, "i", 5);
@@ -100,8 +100,6 @@ class RedisTemplateTest {
 
     @Test
     public void hash_test() {
-        String key = "key01";
-
         HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
         stringObjectObjectHashOperations.put(key, "Hi01", "apple");
         stringObjectObjectHashOperations.put(key, "Hi02", "banana");
