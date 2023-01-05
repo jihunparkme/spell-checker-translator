@@ -1,8 +1,11 @@
 package com.aaron.spellcheckertranslator.sct.util;
 
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
+import java.net.InetAddress;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -21,5 +24,21 @@ public class RequestUtil {
             builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
         return HttpRequest.BodyPublishers.ofString(builder.toString());
+    }
+
+    public static String getClientIP() {
+        InetAddress local = null;
+        try {
+            local = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        if (local == null) {
+            return StringUtils.EMPTY;
+        } else {
+            String ip = local.getHostAddress();
+            return ip;
+        }
     }
 }

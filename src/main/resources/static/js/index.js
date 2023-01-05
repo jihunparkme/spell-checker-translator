@@ -5,6 +5,8 @@ const VOWELS = 'aeiou';
 const text = document.querySelector('#text');
 const clear = document.querySelector('#clear');
 const output = document.querySelector('#output');
+const originalText = document.querySelector('#original-text');
+const correctedText = document.querySelector('#corrected-text');
 const copy = document.querySelector('#copy');
 
 const traverse = (object, callback) => {
@@ -52,6 +54,8 @@ const isVowel = (word, index) => {
 clear.onclick = () => {
     text.value = '';
     output.value = '';
+    originalText.innerText = '';
+    correctedText.innerText = '';
 };
 
 copy.onclick = () => {

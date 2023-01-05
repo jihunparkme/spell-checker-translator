@@ -1,3 +1,31 @@
+$(function () {
+    $('.show').click(function () {
+        $('.text-area').slideDown();
+        $('.show').hide();
+        $('.hide').show();
+    });
+    $('.hide').click(function () {
+        $('.text-area').slideUp();
+        $('.show').show();
+        $('.hide').hide();
+    });
+
+    initResultHistory();
+});
+
+function initResultHistory() {
+    $.ajax({
+        type: 'POST',
+        url: "/redis/result/history",
+        dataType: 'json',
+    }).done(function (result) {
+        console.log(result);
+        result.data.forEach((data) => {
+            appendResultArea(data.originalText, data.translatedText);
+        });
+    });
+}
+
 const colors = [];
 colors[0] = 'olive';
 colors[1] = 'red';
@@ -11,17 +39,26 @@ colors[8] = 'skyblue';
 colors[9] = 'salmon';
 colors[10] = 'lime';
 
+function setResultArea(output, origTxt, crtText) {
+    $('#output').val(output);
+    $('#original-text').html(origTxt);
+    $('#corrected-text').html(crtText);
+}
+
+function appendResultArea(originalText, translatedText) {
+    let text = "<p>" + originalText + "<br/><br/>" + translatedText + "</p>"
+    $(".result").after(text);
+}
+
 function fnSend() {
-    $('#output').val("Translating...");
-    $('#original-text').html("Processing...");
-    $('#corrected-text').html("Processing...");
+    setResultArea("Translating...", "Processing...", "Processing...");
 
     $.ajax({
         type: 'POST',
         url: "/spl-ch-trnsl/request-tr-pp",
         dataType: 'json',
         data: $("#form").serialize(),
-    }).done(function(result) {
+    }).done(function (result) {
         console.log(result);
         let originalText = result.originalText.replaceAll("\n", "<br>");
         let correctedText = result.correctedText.replaceAll("\n", "<br>");
@@ -32,9 +69,8 @@ function fnSend() {
             correctedText = correctedText.replace(candWord, "<span style='color: " + colors[errInfo.correctMethod] + "'>" + candWord + "</span>");
         });
 
-        $('#output').val(result.translatedText);
-        $('#original-text').html(originalText);
-        $('#corrected-text').html(correctedText);
+        setResultArea(result.translatedText, originalText, correctedText);
+        appendResultArea(result.originalText, result.translatedText);
     }).fail(function (error) {
         $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
     });

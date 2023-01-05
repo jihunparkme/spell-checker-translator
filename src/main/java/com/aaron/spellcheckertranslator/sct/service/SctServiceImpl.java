@@ -1,7 +1,11 @@
 package com.aaron.spellcheckertranslator.sct.service;
 
+import com.aaron.spellcheckertranslator.commin.domain.ResultHistory;
+import com.aaron.spellcheckertranslator.commin.repository.ResultRedisRepository;
+import com.aaron.spellcheckertranslator.sct.domain.ResultResponse;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
+import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
 import com.aaron.spellcheckertranslator.spellchecker.service.PusanSpellCheckerService;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
@@ -13,19 +17,25 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SctServiceImpl implements SctService {
+
     private final PusanSpellCheckerService spellCheckerService;
     private final GoogleTransService googleTransService;
     private final PapagoTransService papagoTransService;
+    private final ResultRedisRepository redisRepository;
 
     public SpellCheckerTranslatorResponse spellCheckAndTranslatorApplyGoogle(SpellCheckerTranslatorRequest request) {
         SpellCheckerResponse response = getSpellCheckerResponse(request);
 
         String correctedText = response.getCorrectedText();
         TranslatorResponse finalTranslate = getTranslatedResponse(request, correctedText);
+
+        saveResult(request, finalTranslate);
 
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());
@@ -35,6 +45,16 @@ public class SctServiceImpl implements SctService {
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
                 .build();
+    }
+
+    private void saveResult(SpellCheckerTranslatorRequest request, TranslatorResponse finalTranslate) {
+        String clientIP = RequestUtil.getClientIP();
+        redisRepository.save(ResultHistory.builder()
+                .ip(clientIP)
+                .originalText(request.getText())
+                .translatedText(finalTranslate.getTranslatedText())
+                .createDateTime(LocalDateTime.now())
+                .build());
     }
 
     @Override
@@ -48,6 +68,8 @@ public class SctServiceImpl implements SctService {
                 .tgtLang(Language.from(request.getTgtLang()).getLang())
                 .build());
 
+        saveResult(request, finalTranslate);
+
         log.info("REQUEST:: original: {}, result: {}",
                 request.getText(), finalTranslate.getTranslatedText());
         return SpellCheckerTranslatorResponse.builder()
@@ -56,6 +78,14 @@ public class SctServiceImpl implements SctService {
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
                 .build();
+    }
+
+    @Override
+    public ResultResponse getResults() {
+        return null;
+//        return ResultResponse.builder()
+//                .results()
+//                .build();
     }
 
     private SpellCheckerResponse getSpellCheckerResponse(SpellCheckerTranslatorRequest request) {
