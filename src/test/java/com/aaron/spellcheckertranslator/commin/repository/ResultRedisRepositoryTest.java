@@ -62,12 +62,19 @@ class ResultRedisRepositoryTest {
                 .translatedText("Nice to meet you.")
                 .build();
 
+        Result rst3 = Result.builder()
+                .ip("127.1.1.1")
+                .originalText("반갑습니다.")
+                .translatedText("Nice to meet you.")
+                .build();
+
         // when
         redisRepository.save(rst1);
         redisRepository.save(rst2);
+        redisRepository.save(rst3);
 
         // then
-        List<Result> results = redisRepository.findByIp(rst1.getIp()).get();
+        List<Result> results = redisRepository.findByIp("127.0.0.1").get();
         Assertions.assertThat(results.size()).isEqualTo(2);
     }
 }
