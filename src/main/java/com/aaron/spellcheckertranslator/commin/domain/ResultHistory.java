@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.index.Indexed;
 import java.time.LocalDateTime;
 
 @Getter
-@RedisHash(value = "result", timeToLive = 3600)
+@RedisHash(value = "resultHistory", timeToLive = 3600)
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultHistory {
