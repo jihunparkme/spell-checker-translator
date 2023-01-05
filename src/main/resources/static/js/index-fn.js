@@ -19,6 +19,7 @@ function initResultHistory() {
         url: "/redis/result/history",
         dataType: 'json',
     }).done(function (result) {
+        console.log(result);
         result.data.forEach((data) => {
             appendResultArea(data.originalText, data.translatedText);
         });

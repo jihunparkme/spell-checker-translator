@@ -80,7 +80,7 @@ class ResultRedisRepositoryTest {
         redisRepository.save(rst3);
 
         // then
-        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeDesc("127.0.0.1").get();
+        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeAsc("127.0.0.1").get();
         Assertions.assertThat(results.size()).isEqualTo(2);
     }
 
@@ -115,7 +115,7 @@ class ResultRedisRepositoryTest {
         redisRepository.save(rst3);
 
         // then
-        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeDesc("127.0.0.1").get();
-        Assertions.assertThat(results.get(0).getCreateDateTime()).isEqualTo(LocalDateTime.parse("2023-01-05 20:22:20", dateTimeFormatter));
+        List<ResultHistory> results = redisRepository.findByIpOrderByCreateDateTimeAsc("127.0.0.1").get();
+        Assertions.assertThat(results.get(0).getCreateDateTime()).isEqualTo(LocalDateTime.parse("2023-01-05 20:20:20", dateTimeFormatter));
     }
 }
