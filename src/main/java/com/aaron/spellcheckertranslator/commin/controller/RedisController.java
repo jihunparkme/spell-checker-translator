@@ -1,6 +1,6 @@
 package com.aaron.spellcheckertranslator.commin.controller;
 
-import com.aaron.spellcheckertranslator.commin.domain.Result;
+import com.aaron.spellcheckertranslator.commin.domain.ResultHistory;
 import com.aaron.spellcheckertranslator.commin.service.RedisServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class RedisController {
     private final RedisServiceImpl redisService;
 
     @PostMapping("/result/history")
-    public List<Result> searchResultHistory() {
+    public List<ResultHistory> searchResultHistory() {
         return redisService.searchResultHistory();
     }
 }

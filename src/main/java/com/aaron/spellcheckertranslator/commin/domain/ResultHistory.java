@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @RedisHash(value = "result", timeToLive = 3600)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+public class ResultHistory {
 
     @Id
     private String id;
@@ -22,7 +22,7 @@ public class Result {
     private String translatedText;
 
     @Builder
-    public Result(String ip, String originalText, String translatedText) {
+    public ResultHistory(String ip, String originalText, String translatedText) {
         this.ip = ip;
         this.originalText = originalText;
         this.translatedText = translatedText;

@@ -1,6 +1,6 @@
 package com.aaron.spellcheckertranslator.commin.repository;
 
-import com.aaron.spellcheckertranslator.commin.domain.Result;
+import com.aaron.spellcheckertranslator.commin.domain.ResultHistory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -27,17 +27,17 @@ class ResultRedisRepositoryTest {
     @Test
     void save() throws Exception {
         // given
-        Result result = Result.builder()
+        ResultHistory result = ResultHistory.builder()
                 .ip("127.0.0.1")
                 .originalText("안녕하세요.")
                 .translatedText("hello")
                 .build();
 
         // when
-        Result save = redisRepository.save(result);
+        ResultHistory save = redisRepository.save(result);
 
         // then
-        Result find = redisRepository.findById(save.getId()).get();
+        ResultHistory find = redisRepository.findById(save.getId()).get();
         log.info("id: {}", find.getId());
         log.info("original text: {}", find.getOriginalText());
         log.info("translated text: {}", find.getTranslatedText());
@@ -50,19 +50,19 @@ class ResultRedisRepositoryTest {
     @Test
     void save_multi() throws Exception {
         // given
-        Result rst1 = Result.builder()
+        ResultHistory rst1 = ResultHistory.builder()
                 .ip("127.0.0.1")
                 .originalText("안녕하세요.")
                 .translatedText("hello")
                 .build();
 
-        Result rst2 = Result.builder()
+        ResultHistory rst2 = ResultHistory.builder()
                 .ip("127.0.0.1")
                 .originalText("반갑습니다.")
                 .translatedText("Nice to meet you.")
                 .build();
 
-        Result rst3 = Result.builder()
+        ResultHistory rst3 = ResultHistory.builder()
                 .ip("127.1.1.1")
                 .originalText("반갑습니다.")
                 .translatedText("Nice to meet you.")
@@ -74,7 +74,7 @@ class ResultRedisRepositoryTest {
         redisRepository.save(rst3);
 
         // then
-        List<Result> results = redisRepository.findByIp("127.0.0.1").get();
+        List<ResultHistory> results = redisRepository.findByIp("127.0.0.1").get();
         Assertions.assertThat(results.size()).isEqualTo(2);
     }
 }

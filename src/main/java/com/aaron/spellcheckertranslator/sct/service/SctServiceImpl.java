@@ -1,6 +1,6 @@
 package com.aaron.spellcheckertranslator.sct.service;
 
-import com.aaron.spellcheckertranslator.commin.domain.Result;
+import com.aaron.spellcheckertranslator.commin.domain.ResultHistory;
 import com.aaron.spellcheckertranslator.commin.repository.ResultRedisRepository;
 import com.aaron.spellcheckertranslator.sct.domain.ResultResponse;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
@@ -47,7 +47,7 @@ public class SctServiceImpl implements SctService {
 
     private void saveResult(SpellCheckerTranslatorRequest request, TranslatorResponse finalTranslate) {
         String clientIP = RequestUtil.getClientIP();
-        redisRepository.save(Result.builder()
+        redisRepository.save(ResultHistory.builder()
                 .ip(clientIP)
                 .originalText(request.getText())
                 .translatedText(finalTranslate.getTranslatedText())
