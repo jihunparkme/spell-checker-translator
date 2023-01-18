@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("alp")
+@ActiveProfiles("prd")
 class RedisTemplateTest {
 
     @Autowired
