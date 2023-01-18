@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.spellchecker.service;
 
+import com.aaron.spellcheckertranslator.aop.annotation.Trace;
 import com.aaron.spellcheckertranslator.spellchecker.domain.ErrInfo;
 import com.aaron.spellcheckertranslator.spellchecker.domain.PusanResult;
 import com.aaron.spellcheckertranslator.spellchecker.domain.SpellCheckerResponse;
@@ -21,6 +22,7 @@ public class PusanSpellCheckerService implements SpellCheckerService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
+    @Trace
     public SpellCheckerResponse spellCheck(String text) {
 
         String[] separatedLines = text.split("\n");

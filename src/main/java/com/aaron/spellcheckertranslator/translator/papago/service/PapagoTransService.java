@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.aop.annotation.Trace;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorService;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
@@ -15,6 +16,7 @@ public class PapagoTransService implements TranslatorService {
     private final PapagoTransApiService apiService;
 
     @Override
+    @Trace
     public TranslatorResponse translate(TranslatorRequest request) {
         String translatedText = apiService.translate(request);
         return TranslatorResponse.builder()
