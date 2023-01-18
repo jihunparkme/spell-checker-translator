@@ -1,12 +1,10 @@
 package com.aaron.spellcheckertranslator.sct.controller;
 
-import com.aaron.spellcheckertranslator.sct.domain.ResultResponse;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.sct.service.SctServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +25,5 @@ public class SctApiController {
     @PostMapping("/request-tr-pp")
     public SpellCheckerTranslatorResponse requestApplyPapago(SpellCheckerTranslatorRequest request) {
         return sctService.spellCheckAndTranslatorApplyPapago(request);
-    }
-
-    @GetMapping("/results")
-    public ResultResponse getResults() {
-        return sctService.getResults();
     }
 }

@@ -2,7 +2,6 @@ package com.aaron.spellcheckertranslator.sct.service;
 
 import com.aaron.spellcheckertranslator.commin.domain.ResultHistory;
 import com.aaron.spellcheckertranslator.commin.repository.ResultRedisRepository;
-import com.aaron.spellcheckertranslator.sct.domain.ResultResponse;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorRequest;
 import com.aaron.spellcheckertranslator.sct.domain.SpellCheckerTranslatorResponse;
 import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
@@ -78,14 +77,6 @@ public class SctServiceImpl implements SctService {
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
                 .build();
-    }
-
-    @Override
-    public ResultResponse getResults() {
-        return null;
-//        return ResultResponse.builder()
-//                .results()
-//                .build();
     }
 
     private SpellCheckerResponse getSpellCheckerResponse(SpellCheckerTranslatorRequest request) {
