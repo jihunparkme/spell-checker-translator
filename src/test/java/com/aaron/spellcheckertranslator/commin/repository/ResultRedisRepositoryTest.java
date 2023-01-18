@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("prd")
+@ActiveProfiles("alp")
 class ResultRedisRepositoryTest {
 
     @Autowired

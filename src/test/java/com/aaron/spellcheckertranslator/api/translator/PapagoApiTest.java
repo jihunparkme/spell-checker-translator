@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("prd")
+@ActiveProfiles("alp")
 public class PapagoApiTest {
 
     @Value("${translator.papago.url}")

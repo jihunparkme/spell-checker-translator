@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("prd")
+@ActiveProfiles("alp")
 public class pusanApiTest {
 
     @Value("${spell.checker.pusan.url}")
