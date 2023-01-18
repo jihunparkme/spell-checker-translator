@@ -39,4 +39,5 @@ out/
 ### Custom ###
 .DS_Store
 application-prd.yml
+application-alp.yml
 **/log
