@@ -13,6 +13,11 @@ $(function () {
     initResultHistory();
 });
 
+const TRANSLATING = "Translating...";
+const PROCESSING = "Processing...";
+const ERROR_GUIDE_MESSAGE = "Please check the input text...";
+const ERROR_MESSAGE = "에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.";
+
 function initResultHistory() {
     $.ajax({
         type: 'POST',
@@ -51,7 +56,7 @@ function appendResultArea(originalText, translatedText) {
 }
 
 function fnSend() {
-    setResultArea("Translating...", "Processing...", "Processing...");
+    setResultArea(TRANSLATING, PROCESSING, PROCESSING);
 
     $.ajax({
         type: 'POST',
@@ -60,6 +65,11 @@ function fnSend() {
         data: $("#form").serialize(),
     }).done(function (result) {
         console.log(result);
+        if (result.translatorErrorCode) {
+            setResultArea(result.translatorErrorMessage, ERROR_GUIDE_MESSAGE, ERROR_GUIDE_MESSAGE);
+            return;
+        }
+
         let originalText = result.originalText.replaceAll("\n", "<br>");
         let correctedText = result.correctedText.replaceAll("\n", "<br>");
         result.spellCheckErrInfo.forEach((errInfo) => {
@@ -72,6 +82,6 @@ function fnSend() {
         setResultArea(result.translatedText, originalText, correctedText);
         appendResultArea(result.originalText, result.translatedText);
     }).fail(function (error) {
-        $('#output').val("에러가 발생하였습니다. 잠시 후 다시 시도해 주세요.");
+        $('#output').val(ERROR_MESSAGE);
     });
 }
