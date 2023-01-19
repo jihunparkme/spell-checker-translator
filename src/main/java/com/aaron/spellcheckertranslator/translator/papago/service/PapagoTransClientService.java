@@ -1,6 +1,8 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.aop.annotation.Retry;
 import com.aaron.spellcheckertranslator.aop.annotation.Trace;
+import com.aaron.spellcheckertranslator.commin.exception.ExternalApiException;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorClientService;
@@ -20,8 +22,9 @@ public class PapagoTransClientService implements TranslatorClientService {
 
     private final PapagoTransWebClientConfig webClientConfig;
 
-    @Override
     @Trace
+    @Retry
+    @Override
     public String translate(TranslatorRequest request) {
         HttpURLConnection con = webClientConfig.createHttpClient();
 
@@ -39,7 +42,7 @@ public class PapagoTransClientService implements TranslatorClientService {
                 return readBody(con.getErrorStream());
             }
         } catch (IOException e) {
-            throw new TranslatorException("fail to api request and response", e);
+            throw new ExternalApiException("fail to api request and response", e);
         } finally {
             con.disconnect();
         }

@@ -1,6 +1,8 @@
 package com.aaron.spellcheckertranslator.spellchecker.service;
 
+import com.aaron.spellcheckertranslator.aop.annotation.Retry;
 import com.aaron.spellcheckertranslator.aop.annotation.Trace;
+import com.aaron.spellcheckertranslator.commin.exception.ExternalApiException;
 import com.aaron.spellcheckertranslator.sct.util.RequestUtil;
 import com.aaron.spellcheckertranslator.spellchecker.config.PusanSpellCheckerWebClientConfig;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +31,9 @@ public class PusanSpellCheckerClientService implements SpellCheckerClientService
 
     private final PusanSpellCheckerWebClientConfig spellCheckerWebClientConfig;
 
-    @Override
     @Trace
+    @Retry
+    @Override
     public String spellCheck(String text) {
         HttpClient httpClient = spellCheckerWebClientConfig.createHttpClient();
         HttpRequest request = createHttpRequest(text);
@@ -41,7 +44,7 @@ public class PusanSpellCheckerClientService implements SpellCheckerClientService
                 return getResult(response);
             }
         } catch (Exception e) {
-            log.error("fail to call pusan spell check api", e);
+            throw new ExternalApiException("fail to call pusan spell check api", e);
         }
 
         return EMPTY;
