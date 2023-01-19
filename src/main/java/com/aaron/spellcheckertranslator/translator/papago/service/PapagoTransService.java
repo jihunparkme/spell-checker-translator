@@ -18,6 +18,8 @@ public class PapagoTransService implements TranslatorService {
     @Override
     @Trace
     public TranslatorResponse translate(TranslatorRequest request) {
-        return apiService.translate(request);
+        TranslatorResponse translate = apiService.translate(request);
+        log.info("REQUEST:: original: {}, result: {}", request.getText(), translate.getTranslatedText());
+        return translate;
     }
 }

@@ -37,6 +37,6 @@ public class PapagoTranslatorResponse {
     }
 
     public boolean hasErrorCode() {
-        return StringUtils.isBlank(this.errorCode);
+        return !StringUtils.isBlank(this.errorCode);
     }
 }
