@@ -19,7 +19,9 @@ public class RetryAspect {
         Exception exceptionHolder = null;
         for (int retryCount = 1; retryCount <= maxTry; retryCount++) {
             try {
-                log.info("[Retry] try count={}/{}, {}", retryCount, maxTry, joinPoint.getSignature());
+                if (retryCount > 1) {
+                    log.info("[Retry] try count={}/{}, {}", retryCount, maxTry, joinPoint.getSignature());
+                }
                 return joinPoint.proceed();
             } catch (ExternalApiException e) {
                 exceptionHolder = e;

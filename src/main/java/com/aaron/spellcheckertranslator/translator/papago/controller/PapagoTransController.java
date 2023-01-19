@@ -1,6 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.controller;
 
-import com.aaron.spellcheckertranslator.translator.google.domain.Language;
+import com.aaron.spellcheckertranslator.commin.domain.Response;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.papago.service.PapagoTransService;
@@ -19,13 +19,13 @@ public class PapagoTransController {
     private final PapagoTransService transService;
 
     @PostMapping("/papago")
-    public TranslatorResponse papagoTranslator(TranslatorRequest request) {
+    public Response<TranslatorResponse> papagoTranslator(TranslatorRequest request) {
         TranslatorResponse response = transService.translate(request);
 
         log.info("REQUEST:: original: {}, result: {}", request.getText(), response.getTranslatedText());
-        return TranslatorResponse.builder()
+        return new Response<>(TranslatorResponse.builder()
                 .originalText(request.getText())
                 .translatedText(response.getTranslatedText())
-                .build();
+                .build());
     }
 }

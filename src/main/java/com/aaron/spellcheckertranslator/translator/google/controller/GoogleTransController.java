@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.google.controller;
 
+import com.aaron.spellcheckertranslator.commin.domain.Response;
 import com.aaron.spellcheckertranslator.translator.google.domain.Language;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
@@ -19,7 +20,7 @@ public class GoogleTransController {
     private final GoogleTransService transService;
 
     @PostMapping("/google")
-    public TranslatorResponse googleTranslator(TranslatorRequest request) {
+    public Response<TranslatorResponse> googleTranslator(TranslatorRequest request) {
 
         TranslatorResponse middleTranslate = transService.translate(TranslatorRequest.builder()
                 .text(request.getText())
@@ -34,9 +35,9 @@ public class GoogleTransController {
                 .build());
 
         log.info("REQUEST:: original: {}, result: {}", request.getText(), finalTranslate);
-        return TranslatorResponse.builder()
+        return new Response<>(TranslatorResponse.builder()
                 .originalText(request.getText())
                 .translatedText(finalTranslate.getTranslatedText())
-                .build();
+                .build());
     }
 }
