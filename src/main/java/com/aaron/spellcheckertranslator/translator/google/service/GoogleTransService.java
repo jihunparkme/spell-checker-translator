@@ -21,9 +21,9 @@ public class GoogleTransService implements TranslatorService {
 
     @Override
     public TranslatorResponse translate(TranslatorRequest request) {
-        String response = apiService.translate(request);
+        TranslatorResponse translateResponse = apiService.translate(request);
 
-        String translatedText = extractTranslatedText(response);
+        String translatedText = extractTranslatedText(translateResponse.getTranslatedText());
         return TranslatorResponse.builder()
                 .originalText(request.getText())
                 .translatedText(translatedText)

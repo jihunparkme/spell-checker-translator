@@ -1,11 +1,9 @@
 package com.aaron.spellcheckertranslator.translator.common.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +17,10 @@ public class TranslatorResponse {
     public TranslatorResponse(String originalText, String translatedText) {
         this.originalText = originalText;
         this.translatedText = translatedText;
+    }
+
+    @Builder
+    public TranslatorResponse(String originalText) {
+        this.originalText = originalText;
     }
 }
