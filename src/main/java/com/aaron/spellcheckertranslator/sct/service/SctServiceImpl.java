@@ -43,6 +43,8 @@ public class SctServiceImpl implements SctService {
                 .correctedText(correctedText)
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
+                .translatorErrorCode(finalTranslate.getErrorCode())
+                .translatorErrorMessage(finalTranslate.getErrorMessage())
                 .build();
     }
 
@@ -76,6 +78,8 @@ public class SctServiceImpl implements SctService {
                 .correctedText(correctedText)
                 .spellCheckErrInfo(response.getErrInfo())
                 .translatedText(finalTranslate.getTranslatedText())
+                .translatorErrorCode(finalTranslate.getErrorCode())
+                .translatorErrorMessage(finalTranslate.getErrorMessage())
                 .build();
     }
 
