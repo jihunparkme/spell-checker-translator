@@ -14,7 +14,7 @@ public class TraceAspect {
 
     @Before("@annotation(com.aaron.spellcheckertranslator.aop.annotation.Trace)")
     public void traceBefore(JoinPoint joinPoint) {
-        log.info("[Before] {}", joinPoint.getClass());
+        log.info("[Before] {}", joinPoint.getSignature());
     }
 
     @After("@annotation(com.aaron.spellcheckertranslator.aop.annotation.Trace)")

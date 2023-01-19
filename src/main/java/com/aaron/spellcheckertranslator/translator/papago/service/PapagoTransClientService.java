@@ -1,5 +1,6 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
+import com.aaron.spellcheckertranslator.aop.annotation.Trace;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorClientService;
@@ -20,6 +21,7 @@ public class PapagoTransClientService implements TranslatorClientService {
     private final PapagoTransWebClientConfig webClientConfig;
 
     @Override
+    @Trace
     public String translate(TranslatorRequest request) {
         HttpURLConnection con = webClientConfig.createHttpClient();
 

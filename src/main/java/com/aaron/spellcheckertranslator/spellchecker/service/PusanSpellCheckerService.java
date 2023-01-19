@@ -22,7 +22,6 @@ public class PusanSpellCheckerService implements SpellCheckerService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    @Trace
     public SpellCheckerResponse spellCheck(String text) {
 
         String[] separatedLines = text.split("\n");
