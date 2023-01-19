@@ -5,9 +5,13 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TranslatorResponse {
+public class PapagoTranslatorResponse {
+
+    public static final PapagoTranslatorResponse EMPTY = new PapagoTranslatorResponse();
+
     private Message message;
-    public static final TranslatorResponse EMPTY = new TranslatorResponse();
+    private String errorCode;
+    private String errorMessage;
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)

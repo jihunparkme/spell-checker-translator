@@ -3,7 +3,7 @@ package com.aaron.spellcheckertranslator.translator.papago.service;
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorApiService;
-import com.aaron.spellcheckertranslator.translator.papago.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.papago.domain.PapagoTranslatorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class PapagoTransApiService implements TranslatorApiService {
                         .srcLang(request.getSrcLang())
                         .tgtLang(request.getTgtLang())
                         .build());
-        TranslatorResponse responseObject = getResponseObject(response);
+        PapagoTranslatorResponse responseObject = getResponseObject(response);
         return responseObject.getTranslatedText();
     }
 
@@ -41,9 +41,9 @@ public class PapagoTransApiService implements TranslatorApiService {
         }
     }
 
-    private TranslatorResponse getResponseObject(String response) {
+    private PapagoTranslatorResponse getResponseObject(String response) {
         try {
-            return mapper.readValue(response, TranslatorResponse.class);
+            return mapper.readValue(response, PapagoTranslatorResponse.class);
         } catch (JsonProcessingException e) {
             throw new TranslatorException("fail to json parsing", e);
         }

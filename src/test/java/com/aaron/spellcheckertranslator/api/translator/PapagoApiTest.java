@@ -1,6 +1,6 @@
 package com.aaron.spellcheckertranslator.api.translator;
 
-import com.aaron.spellcheckertranslator.translator.papago.domain.TranslatorResponse;
+import com.aaron.spellcheckertranslator.translator.papago.domain.PapagoTranslatorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ public class PapagoApiTest {
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 
         String response = post(url, requestHeaders, text);
-        TranslatorResponse responseBody = mapper.readValue(response, TranslatorResponse.class);
+        PapagoTranslatorResponse responseBody = mapper.readValue(response, PapagoTranslatorResponse.class);
 
         assertThat(responseBody.getTranslatedText()).isEqualTo("Hello. How are you today?");
     }
