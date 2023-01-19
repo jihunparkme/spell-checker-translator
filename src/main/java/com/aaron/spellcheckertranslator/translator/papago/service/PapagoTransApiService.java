@@ -1,6 +1,7 @@
 package com.aaron.spellcheckertranslator.translator.papago.service;
 
 import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorRequest;
+import com.aaron.spellcheckertranslator.translator.common.domain.TranslatorResponse;
 import com.aaron.spellcheckertranslator.translator.common.exception.TranslatorException;
 import com.aaron.spellcheckertranslator.translator.common.service.TranslatorApiService;
 import com.aaron.spellcheckertranslator.translator.papago.domain.PapagoTranslatorResponse;
@@ -22,15 +23,27 @@ public class PapagoTransApiService implements TranslatorApiService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String translate(TranslatorRequest request) {
+    public TranslatorResponse translate(TranslatorRequest request) {
         String response = clientService.translate(
                 TranslatorRequest.builder()
                         .text(getEncodedText(request.getText()))
                         .srcLang(request.getSrcLang())
                         .tgtLang(request.getTgtLang())
                         .build());
-        PapagoTranslatorResponse responseObject = getResponseObject(response);
-        return responseObject.getTranslatedText();
+        PapagoTranslatorResponse papagoResponse = getResponseObject(response);
+        if (papagoResponse.hasErrorCode()) {
+            return TranslatorResponse.builder()
+                    .originalText(request.getText())
+                    .translatedText(papagoResponse.getTranslatedText())
+                    .errorCode(papagoResponse.getErrorCode())
+                    .errorMessage(papagoResponse.getErrorMessage())
+                    .build();
+        }
+
+        return TranslatorResponse.builder()
+                .originalText(request.getText())
+                .translatedText(papagoResponse.getTranslatedText())
+                .build();
     }
 
     private String getEncodedText(String text) {
